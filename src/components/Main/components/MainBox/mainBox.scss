@@ -1,0 +1,18 @@
+.mainBox{
+    width: 1545px;
+    height: 1900px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+/* .block{
+    height: 300px;
+    width: 150px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background: rgb(222, 67, 202);
+} */

@@ -1,0 +1,82 @@
+.containerBlock{
+    width: 522px;
+    height: 215px;
+    background: rgba(159, 63, 10, 0.24);
+    box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-top: 60px;
+    padding: 25px;
+
+    img{
+        float: right;
+    }
+
+    .icon{
+        width: inherit;
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .description{
+        margin-top: -30px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
+        p{
+            margin-top: 7px;
+        }
+    }
+}
+
+.detail{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    padding: 28px 58px;
+    width: auto;
+    height: auto;
+    background-color: #e1e1e1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+
+    .detailBlock{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detailBlock:first-of-type{
+        margin-right: 50px;
+    }
+
+    label{
+        margin-top: 5px;
+    }
+
+    .input, .select{
+        height: 27px;
+        width: 250px;
+        margin: 7px 0px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+
+    .input.Error{
+        border: 1px solid #9e0000;
+    }
+
+    .messageError{
+        font-size: 14px;
+        color: #9e0000;
+    }
+}

@@ -1,0 +1,26 @@
+.login{
+    width: 250px;
+    height: 200px;
+    background: rgb(255, 207, 207);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    background-color: #e1e1e1;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+
+    input{
+        height: 27px;
+        width: 175px;
+        margin: 7px 0px;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+}
