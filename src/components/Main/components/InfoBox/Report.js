@@ -1,8 +1,11 @@
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useFormik } from 'formik'
-import  * as yup from 'yup'
+import * as yup from 'yup'
+import { reportApi } from '../../../API/reportsApi';
+import { loginApi } from '../../../API/loginApi';
+import { employeeMassiv } from '../../../API/employeeMassiv';
 
 export default function Report({ setVisable }) {
 
@@ -19,20 +22,44 @@ export default function Report({ setVisable }) {
         },
     })
 
+    const token = useMemo(() => localStorage.getItem('token'), [])
+    const officerID = useMemo(() => localStorage.getItem('officerID'), [])
+
     const onSubmitFn = (values) => {
-        console.log('Form Data \n', values)
+        //console.log(values);
+        //console.log(values);
+        if (token !== null) {
+            const transormValues = { ...values, officer: officerID }
+            //console.log(transormValues);
+            reportApi.newReport(transormValues) //не работает, но должно
+        }
+        else {
+            const transormValues = {...values, clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002'}
+            reportApi.newReportNoLogin(transormValues)
+        }
+        setVisable(false)
+        //console.log('Form Data \n', values)
     }
 
+    const time = () => { //временно
+        //console.log(employeeMassiv.component[0]);
+        loginApi.signIn(employeeMassiv.component[1])
+        console.log('ok');
+    }
 
+    //time();
+
+    //console.log(officerOrClientId);
     const formik = useFormik({
         initialValues: { 
             licenseNumber: '',
             type: '',
             ownerFullName: '',
             color: '',
-            date: '',
-            //officer: '',
+            date: '',  
             description: '',
+            /* officer: officerID,
+            clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002' */
             //resolution: ''
         },
         validationSchema: yup.object({
@@ -53,6 +80,10 @@ export default function Report({ setVisable }) {
         onSubmit: onSubmitFn
     })
 
+   /*  const handleTask = () => {
+        console.log(formik);
+    } */
+
     return (
         <>  
             <form onSubmit={formik.handleSubmit} className="report">
@@ -71,22 +102,22 @@ export default function Report({ setVisable }) {
                 </select>
                 
                 <label>Цвет велосипеда</label>
-                <input type="text" id="color" name="color" className='input' />
+                <input type="text" id="color" name="color" className='input' onChange={formik.handleChange}/>
                 {/* {formik.errors.color && formik.touched.color && (<div className='messageError'>{formik.errors.color}</div>)} */}
 
                 <label>Дата кражи</label>
-                <input type="date" id="date" name="date" className='input' />
+                <input type="date" id="date" name="date" className='input' onChange={formik.handleChange}/>
                 
                 {/* <label>Ответственный сотрудник</label>
                 <input type="text" id="officer" name="officer" className='input' /> */}
                                         
                 <label>Комментарий</label>
-                <input type="text" id="description" name="description" className='input' />
+                <input type="text" id="description" name="description" className='input' onChange={formik.handleChange}/>
                 
                {/*  <label>Дополнительный комментарий</label>
                 <input type="text" id="resolution" name="resolution" className='input' /> */}
                 
-                <ButtonTwo variant="outlined" size="medium" type='submit'/*  onClick={handleSubmit} */>Добавить</ButtonTwo>
+                <ButtonTwo variant="outlined" size="medium" type='submit' /* onClick={handleTask} */ >Добавить</ButtonTwo>
 
             </form>
             <div onClick={() => setVisable(false)} className='overlay' />

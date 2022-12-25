@@ -9,6 +9,17 @@
     align-content: flex-start;
 }
 
+.input.Error{  //ошибки 
+    border: 1px solid #9e0000;
+}
+
+.messageError{
+    font-size: 14px;
+    color: #9e0000;
+}
+
+
+
 /* .block{
     height: 300px;
     width: 150px;

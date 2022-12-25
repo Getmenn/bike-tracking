@@ -1,6 +1,7 @@
 import './header.scss'
-import React, { useState } from 'react';
-import Login from './components/Logon';
+import React, { useEffect, useMemo, useState } from 'react';
+import Login from './components/Login';
+import { loginApi } from '../API/loginApi';
 
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -21,7 +22,6 @@ export default function Header() {
     const [login, setlogin] = useState(false)
     const [visableLogin, setVisableLogin] = useState(false)
 
-
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -31,6 +31,24 @@ export default function Header() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleLogout = () => {
+        setlogin(false)
+        localStorage.removeItem('token')
+        localStorage.removeItem('officerID')
+    }
+
+
+    useEffect( () => {
+        if (localStorage.getItem('token') !== null) {
+
+            //const token = localStorage.getItem('token')
+            
+            //loginApi.checkToken(token) 
+            
+            setlogin(true)
+        }
+    },[visableLogin])
 
     /* const handleLogin = () => {
 
@@ -89,37 +107,38 @@ export default function Header() {
                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                        {login === false && 
-                            <MenuItem style={{width: '150px'}}>
-                                <p onClick={() => setVisableLogin(true)}>Login</p>
+                        {login === false
+                            &&
+                            <MenuItem style={{ width: '150px' }} onClick={() => setVisableLogin(true)}>
+                                <p>Login</p>
                             </MenuItem>
                         
                         }
                         {login &&
-                            <>
-                                <MenuItem>
-                                    <Avatar /> Profile
+                                <div>
+                                    <MenuItem>
+                                        <Avatar /> Profile
+                                        </MenuItem>
+                                        <Divider />
+                                    <MenuItem>
+                                        <ListItemIcon>
+                                            <PersonAdd fontSize="small" />
+                                        </ListItemIcon>
+                                        Add another account
                                     </MenuItem>
-                                    <Divider />
-                                <MenuItem>
-                                    <ListItemIcon>
-                                        <PersonAdd fontSize="small" />
-                                    </ListItemIcon>
-                                    Add another account
-                                </MenuItem>
-                                <MenuItem>
-                                    <ListItemIcon>
-                                        <Settings fontSize="small" />
-                                    </ListItemIcon>
-                                    Settings
-                                </MenuItem>
-                                <MenuItem onClick={() => setVisable(!visable)}>
-                                    <ListItemIcon>
-                                        <Logout fontSize="small" />
-                                    </ListItemIcon>
-                                    Logout                          
-                                </MenuItem>
-                            </>
+                                    <MenuItem>
+                                        <ListItemIcon>
+                                            <Settings fontSize="small" />
+                                        </ListItemIcon>
+                                        Settings
+                                    </MenuItem>
+                                    <MenuItem onClick={handleLogout}>
+                                        <ListItemIcon>
+                                            <Logout fontSize="small" />
+                                        </ListItemIcon>
+                                        Logout                          
+                                    </MenuItem>
+                                </div>
                         }
                         </Menu>
                         

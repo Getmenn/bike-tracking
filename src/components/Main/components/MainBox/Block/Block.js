@@ -1,11 +1,12 @@
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './block.scss'
 import DetailedBlock from './DetailedBlock';
 import newIcon from '../../../../../svg/new.svg'
 import inProgress from '../../../../../svg/inProgress.svg'
 import done from '../../../../../svg/done.svg'
+import { reportApi } from '../../../../API/reportsApi';
 
 
 export default function Block({ bike }) {
@@ -23,6 +24,11 @@ export default function Block({ bike }) {
             color: '#00123A',
             boxShadow: 'none',
         },
+    })
+
+    useEffect(() => {
+        /* reportApi.getAllReports() // не работает
+        console.log('ok'); */
     })
     return (
         <>
