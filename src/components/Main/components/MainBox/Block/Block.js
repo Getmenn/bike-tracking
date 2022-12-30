@@ -27,8 +27,8 @@ export default function Block({ bike }) {
     })
 
     useEffect(() => {
-        /* reportApi.getAllReports() // не работает
-        console.log('ok'); */
+         /* reportApi.getAllReports() // не работает
+        console.log('ok'); */ 
     })
     return (
         <>

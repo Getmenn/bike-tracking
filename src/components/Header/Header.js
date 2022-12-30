@@ -2,6 +2,7 @@ import './header.scss'
 import React, { useEffect, useMemo, useState } from 'react';
 import Login from './components/Login';
 import { loginApi } from '../API/loginApi';
+import OfficerList from './components/OfficerList';
 
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -11,16 +12,20 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import Registration from './components/Registration';
+import BallotIcon from '@mui/icons-material/Ballot';
+
 
 
 
 export default function Header() {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [visable, setVisable] = useState(false)
+    //const [visable, setVisable] = useState(false)
     const [login, setlogin] = useState(false)
     const [visableLogin, setVisableLogin] = useState(false)
+    const [visableRegistration, setVisableRegistration] = useState(false)
+    const [visableList, setVisableList] = useState(false)
 
     const open = Boolean(anchorEl);
 
@@ -41,18 +46,10 @@ export default function Header() {
 
     useEffect( () => {
         if (localStorage.getItem('token') !== null) {
-
-            //const token = localStorage.getItem('token')
-            
-            //loginApi.checkToken(token) 
-            
+            loginApi.checkToken()  
             setlogin(true)
         }
     },[visableLogin])
-
-    /* const handleLogin = () => {
-
-    } */
 
     return (
         <>
@@ -117,26 +114,26 @@ export default function Header() {
                         {login &&
                                 <div>
                                     <MenuItem>
-                                        <Avatar /> Profile
+                                        <Avatar /> Профиль
                                         </MenuItem>
                                         <Divider />
-                                    <MenuItem>
+                                    <MenuItem onClick={() => setVisableRegistration(true)}>
                                         <ListItemIcon>
                                             <PersonAdd fontSize="small" />
                                         </ListItemIcon>
-                                        Add another account
+                                        Добавить сотрудника
                                     </MenuItem>
-                                    <MenuItem>
-                                        <ListItemIcon>
-                                            <Settings fontSize="small" />
+                                    <MenuItem onClick={() => setVisableList(true)}>
+                                        <ListItemIcon >
+                                            <BallotIcon fontSize="small" />
                                         </ListItemIcon>
-                                        Settings
+                                        Список сотрудников
                                     </MenuItem>
                                     <MenuItem onClick={handleLogout}>
                                         <ListItemIcon>
                                             <Logout fontSize="small" />
                                         </ListItemIcon>
-                                        Logout                          
+                                        Выход                          
                                     </MenuItem>
                                 </div>
                         }
@@ -145,6 +142,8 @@ export default function Header() {
                 </div>
             </div>
             {visableLogin && <Login setVisableLogin={setVisableLogin} />}
+            {visableRegistration && <Registration setVisableRegistration={setVisableRegistration} />}
+            {visableList && <OfficerList setVisableList={setVisableList} />}
         </>
     )
 }

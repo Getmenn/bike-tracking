@@ -1,6 +1,6 @@
-.login{
-    width: 270px;
-    height: 250px;
+.login, .registration, .officerList{
+    min-width: 270px;
+    min-height: 250px;
     background: rgb(255, 207, 207);
     position: fixed;
     top: 50%;
@@ -24,3 +24,24 @@
         box-sizing: border-box;
     }
 }
+
+.registration{
+    height: 350px;
+}
+
+.officerList{
+    .officerItem{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 15px;
+        label{
+            margin-right: 100px;
+        }
+        svg{
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    }
+}
+

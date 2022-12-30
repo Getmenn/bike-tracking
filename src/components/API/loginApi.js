@@ -17,13 +17,17 @@ export const loginApi = {
         }
         
     },
-    checkToken: async (token) => { //авторизация
-        //try {
-        //console.log(token);
-            const response = await main.get(`/api/auth/`, token);
-            return console.log(response);
-       /*  } catch (error) {
+    checkToken: async () => { //проверка токена
+        try {
+                const response = await main.get(`/api/auth/`,{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    }
+                })
+                return response;
+            }
+        catch (error) { 
             return console.log('Токен не валидный')
-        } */
+        } 
     }
 }

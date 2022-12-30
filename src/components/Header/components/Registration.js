@@ -3,11 +3,11 @@ import { styled } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import './componentsHeader.scss'
-import { loginApi } from '../../API/loginApi';
+import { officerApi } from '../../API/officerApi';
 import { useDispatch} from "react-redux";
 import { addOfficer } from '../../Redux/firstReducer';
 
-export default function Login({ setVisableLogin, handleLogin }) {
+export default function Registration({ setVisableRegistration, handleLogin }) {
     const dispatch = useDispatch(); //диспач
     /* const customers = useSelector(state => state.customers.customers) */
 
@@ -24,31 +24,26 @@ export default function Login({ setVisableLogin, handleLogin }) {
         },
     })
 
-    async function onSubmitFn (values) { 
-        const officer = await loginApi.signIn(values)
-        dispatch(addOfficer(officer)) //добавление в редакс активного сотрудника
-
-        if (localStorage.getItem('token') !== null ) {
-            setVisableLogin(false)
-        }
-        else {
-            alert('Email или логин не верны')
-        }
-        //setVisableLogin(false)
-        //setVisable(false)
-        //console.log('Form Data \n', values)
+    function onSubmitFn(values) { 
+        console.log(values);
+        officerApi.newOfficer(values) 
     }
 
     const formik = useFormik({
         initialValues: {
             email: '',
-            password: ''
+            password: '',
+            firstName: '',
+            lastName: '',
+            //clientId: '54643bb2-7e2d-11ed-a1eb-0242ac120002'
         },
         validationSchema: yup.object({
             //email: yup.string().required('Required').email('Invalid email add'),
             //системное status: yup.string(), //статус 
             email: yup.string().required('Обязательное поле').email(),
-            password: yup.string().required('Обязательное поле')
+            password: yup.string().required('Обязательное поле'),
+            firstName: yup.string(),
+            lastName: yup.string(),
         }),
         onSubmit: onSubmitFn
     })
@@ -57,17 +52,25 @@ export default function Login({ setVisableLogin, handleLogin }) {
 
     return (
         <>
-            <form onSubmit={formik.handleSubmit} className="login">
+            <form onSubmit={formik.handleSubmit} className="registration">
+                <div className="exit" onClick={() => setVisableRegistration(false)}><h3><b>X</b></h3></div>
+                <label>Имя</label>
+                <input type="text" id="firstName" name="firstName" className='input' onChange={formik.handleChange} />
+                
+                <label>Фамилия</label>
+                <input type="text" id="lastName" name="lastName" className='input' onChange={formik.handleChange}/>
+                
                 <label>Email</label>
                 <input type="text" id="email" name="email" className={`input ${formik.errors.email && formik.touched.email ? 'Error' : null}`} onChange={formik.handleChange}/>
                 {formik.errors.email && formik.touched.email && (<div className='messageError'>{formik.errors.email}</div>)}
+                
                 <label>Пароль</label>
                 <input type="password" id="password" name="password" className={`input ${formik.errors.password && formik.touched.password ? 'Error' : null}`}  onChange={formik.handleChange}/>
                 {formik.errors.password && formik.touched.password && (<div className='messageError'>{formik.errors.password}</div>)}
                 
                 <ButtonTwo variant="outlined" size="small" type='submit'>Войти</ButtonTwo>
             </form>
-            <div onClick={() => setVisableLogin(false)} className='overlay' />
+            <div onClick={() => setVisableRegistration(false)} className='overlay' />
         </>
     )
 }

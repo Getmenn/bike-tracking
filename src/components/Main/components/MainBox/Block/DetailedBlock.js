@@ -132,8 +132,7 @@ export default function DetailedBlock({ bike, setVisableDetail }) {
                     </>} {/* //Завершающий комментарий */}
                 </div>
                 
-                
-               
+                <div className="exit" onClick={() => setVisableDetail(false)}><h3><b>X</b></h3></div> 
 
             </form>
             <div onClick={() => setVisableDetail(false)} className='overlay' />

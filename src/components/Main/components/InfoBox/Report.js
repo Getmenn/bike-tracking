@@ -61,6 +61,7 @@ export default function Report({ setVisable }) {
             /* officer: officerID,
             clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002' */
             //resolution: ''
+            //добавить поле ответственный сотрудник для авторизованных пользователей
         },
         validationSchema: yup.object({
             //email: yup.string().required('Required').email('Invalid email add'),
@@ -87,6 +88,7 @@ export default function Report({ setVisable }) {
     return (
         <>  
             <form onSubmit={formik.handleSubmit} className="report">
+                <div className="exit" onClick={() => setVisable(false)}><h3><b>X</b></h3></div>
                 <label>Номер лицензии</label>
                 <input type="number"  id="licenseNumber" name="licenseNumber" className={`input ${formik.errors.licenseNumber && formik.touched.licenseNumber ? 'Error' : null}`} onChange={formik.handleChange} value={formik.values.licenseNumber}/>
                 {formik.errors.licenseNumber && formik.touched.licenseNumber && (<div className='messageError'>{formik.errors.licenseNumber}</div>)}
