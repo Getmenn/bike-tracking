@@ -25,8 +25,8 @@ export default function Registration({ setVisableRegistration, handleLogin }) {
     })
 
     function onSubmitFn(values) { 
-        console.log(values);
-        officerApi.newOfficer(values) 
+        const token = localStorage.getItem('token')
+        officerApi.newOfficer(values, token) 
     }
 
     const formik = useFormik({
