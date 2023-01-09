@@ -1,4 +1,4 @@
-.login, .registration, .officerList{
+.login, .registration, .officerList, .officerPage{
     min-width: 270px;
     min-height: 250px;
     background: rgb(255, 207, 207);
@@ -8,7 +8,7 @@
     z-index: 2;
     box-sizing: border-box;
     transform: translate(-50%, -50%);
-    padding: 15px;
+    padding: 25px;
     background-color: #e1e1e1;
     display: flex;
     flex-direction: column;
@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
 
-    input{
+    input[type=text], input[type=password]{
         height: 27px;
         width: 175px;
         margin: 7px 0px;
@@ -26,21 +26,58 @@
 }
 
 .registration{
-    height: 350px;
+    height: 370px;
+    .messageError{
+        width: 240px;
+        text-align: center;
+    }
 }
 
 .officerList{
+    min-height: 345px;
+    padding: 35px;
+    align-items: flex-start;
     .officerItem{
         display: flex;
         flex-direction: row;
         align-items: center;
         margin-top: 15px;
         label{
-            margin-right: 100px;
+            height: 10px;
+            width: 310px;
         }
         svg{
             cursor: pointer;
             margin-right: 10px;
+        }
+    }
+}
+
+.officerPage{
+    min-height: 200px;
+    align-items: flex-start;
+    background-color: #b5b5ff;
+    p{
+        margin: 10px 0;
+    }
+    input[type = checkbox]{
+        margin: 0;
+        margin-left: 10px;
+        transform:scale(1.4);
+    }
+    input[type=text], input[type=password]{
+        margin: 0;
+        margin-left: 10px;
+        min-height: 27px;
+        background: transparent;
+        border: 1px solid #9d9cff;
+    }
+    .fio{
+        input[type=text]:first-of-type {
+            margin-left: 0px;
+        }   
+        input{
+            font-size: 20px;
         }
     }
 }

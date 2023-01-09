@@ -24,9 +24,17 @@ export default function Registration({ setVisableRegistration, handleLogin }) {
         },
     })
 
-    function onSubmitFn(values) { 
-        const token = localStorage.getItem('token')
-        officerApi.newOfficer(values, token) 
+    async function onSubmitFn(values) { 
+        const result = await officerApi.newOfficer(values) 
+        console.log(result);
+        if (result  !== null) {
+            setVisableRegistration(false)
+            console.log('closed');
+        } else {
+            formik.errors.email = true
+            formik.touched.email = true
+            formik.errors.email = 'Пользователь с данным email уже существует'
+        }
     }
 
     const formik = useFormik({

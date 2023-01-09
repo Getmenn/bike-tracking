@@ -1,5 +1,3 @@
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import './block.scss'
 import DetailedBlock from './DetailedBlock';
@@ -7,24 +5,12 @@ import newIcon from '../../../../../svg/new.svg'
 import inProgress from '../../../../../svg/inProgress.svg'
 import done from '../../../../../svg/done.svg'
 import { reportApi } from '../../../../API/reportsApi';
+import { ButtonTwo } from '../../../../button/Button';
 
 
 export default function Block({ bike }) {
     
     const[visableDetail, setVisableDetail] = useState(false)
-
-    const ButtonTwo = styled(Button)({
-        fontSize: 14,
-        color: '#042177',
-        borderColor: '#042177',
-        marginTop: '23px',
-        '&:hover': {
-            borderColor: '#00123A',
-            backgroundColor: "rgba(0, 0, 0, 0.1)",
-            color: '#00123A',
-            boxShadow: 'none',
-        },
-    })
 
     useEffect(() => {
          /* reportApi.getAllReports() // не работает
@@ -46,7 +32,7 @@ export default function Block({ bike }) {
                     <p><b>Цвет:</b> {bike.color}</p>
                     <p><b>Дата кражи:</b> {bike.date}</p>
                 </div>
-                <ButtonTwo variant="outlined" size="small" onClick={() => setVisableDetail(true)}>Подробнее</ButtonTwo>
+                <ButtonTwo variant="outlined" size='small' onClick={() => setVisableDetail(true)}>Подробнее</ButtonTwo>
             </div>
             {visableDetail && <DetailedBlock bike={bike} setVisableDetail={setVisableDetail } />}
     

@@ -26,7 +26,7 @@ export default function Login({ setVisableLogin, handleLogin }) {
 
     async function onSubmitFn (values) { 
         const officer = await loginApi.signIn(values)
-        dispatch(addOfficer(officer)) //добавление в редакс активного сотрудника
+        //dispatch(addOfficer(officer)) //добавление в редакс активного сотрудника
 
         if (localStorage.getItem('token') !== null ) {
             setVisableLogin(false)

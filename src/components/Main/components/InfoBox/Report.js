@@ -1,37 +1,21 @@
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import React, { useMemo } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { reportApi } from '../../../API/reportsApi';
 import { loginApi } from '../../../API/loginApi';
 import { employeeMassiv } from '../../../API/employeeMassiv';
+import { ButtonTwo } from '../../../button/Button';
 
 export default function Report({ setVisable }) {
 
-    const ButtonTwo = styled(Button)({
-        fontSize: 17,
-        color: '#042177',
-        borderColor: '#042177',
-        marginTop: '15px',
-        '&:hover': {
-            borderColor: '#00123A',
-            backgroundColor: "rgba(0, 0, 0, 0.1)",
-            color: '#00123A',
-            boxShadow: 'none',
-        },
-    })
-
     const token = useMemo(() => localStorage.getItem('token'), [])
-    const officerID = useMemo(() => localStorage.getItem('officerID'), [])
+    //const officerID = useMemo(() => localStorage.getItem('officerID'), []) лишнее
 
     const onSubmitFn = (values) => {
-        //console.log(values);
-        //console.log(values);
         if (token !== null) {
-            const transormValues = { ...values, officer: officerID }
+            //const transormValues = { ...values, officer: officerID }
             //console.log(transormValues);
-            reportApi.newReport(transormValues) //не работает, но должно
+            //reportApi.newReport(transormValues) //не работает, но должно
         }
         else {
             const transormValues = {...values, clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002'}
@@ -119,7 +103,7 @@ export default function Report({ setVisable }) {
                {/*  <label>Дополнительный комментарий</label>
                 <input type="text" id="resolution" name="resolution" className='input' /> */}
                 
-                <ButtonTwo variant="outlined" size="medium" type='submit' /* onClick={handleTask} */ >Добавить</ButtonTwo>
+                <ButtonTwo size="medium" variant="outlined" type='submit'/* onClick={handleTask} */ >Добавить</ButtonTwo>
 
             </form>
             <div onClick={() => setVisable(false)} className='overlay' />

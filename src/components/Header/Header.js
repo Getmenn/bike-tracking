@@ -15,6 +15,7 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Logout from '@mui/icons-material/Logout';
 import Registration from './components/Registration';
 import BallotIcon from '@mui/icons-material/Ballot';
+import { OfficerPage } from './components/OfficerPage';
 
 
 
@@ -26,6 +27,9 @@ export default function Header() {
     const [visableLogin, setVisableLogin] = useState(false)
     const [visableRegistration, setVisableRegistration] = useState(false)
     const [visableList, setVisableList] = useState(false)
+    const [visableOfficer, setVisableOfficer] = useState(false)
+
+    const user = useMemo(() => JSON.parse(localStorage.getItem('user')), [login])
 
     const open = Boolean(anchorEl);
 
@@ -40,9 +44,8 @@ export default function Header() {
     const handleLogout = () => {
         setlogin(false)
         localStorage.removeItem('token')
-        localStorage.removeItem('officerID')
+        localStorage.removeItem('user')
     }
-
 
     useEffect( () => {
         if (localStorage.getItem('token') !== null) {
@@ -113,7 +116,7 @@ export default function Header() {
                         }
                         {login &&
                                 <div>
-                                    <MenuItem>
+                                    <MenuItem onClick={() => setVisableOfficer(true)}>
                                         <Avatar /> Профиль
                                         </MenuItem>
                                         <Divider />
@@ -141,6 +144,7 @@ export default function Header() {
                         
                 </div>
             </div>
+            {visableOfficer && <OfficerPage officer={user} setVisableOfficer={setVisableOfficer} info={true}/>}
             {visableLogin && <Login setVisableLogin={setVisableLogin} />}
             {visableRegistration && <Registration setVisableRegistration={setVisableRegistration} />}
             {visableList && <OfficerList setVisableList={setVisableList} />}

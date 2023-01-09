@@ -10,7 +10,7 @@ export const loginApi = {
         try {
             const response = await main.post(`/api/auth/sign_in`, user);
             localStorage.setItem('token', response.data.data.token)
-            localStorage.setItem('officerID', response.data.data.user.id)
+            localStorage.setItem('user', JSON.stringify(response.data.data.user) ) 
             return console.log(response.data); 
         } catch (error) {
             return null
