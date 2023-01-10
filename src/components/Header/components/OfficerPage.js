@@ -44,7 +44,6 @@ export const OfficerPage = ({ officer, setVisableOfficer, info = false }) => {
 
     const handleSubmit = async() => {
         await officerApi.editOfficer(officer._id, officerS)
-        console.log(officerS);
         setVisableOfficer(false)
     }
 
@@ -62,7 +61,7 @@ export const OfficerPage = ({ officer, setVisableOfficer, info = false }) => {
                 </p>
                 <p>
                     Одобрен:  
-                    <input type="checkbox" checked={officerS.approved} id='approved' onChange={(e) => handleChange(e)} readOnly={info}/>
+                    <input type="checkbox" checked={officerS.approved || false} id='approved' onChange={(e) => handleChange(e)} readOnly={info}/>
                 </p>
                 {info === false &&
                     <p>

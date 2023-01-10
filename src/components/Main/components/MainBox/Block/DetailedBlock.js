@@ -1,31 +1,29 @@
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import './block.scss'
-import {employeeMassiv} from '../../../../API/employeeMassiv'
+import { ButtonThree } from '../../../../button/Button'
+import { officerApi } from '../../../../API/officerApi'
+import { reportApi } from '../../../../API/reportsApi'
 
-export default function DetailedBlock({ bike, setVisableDetail }) {
+export default function DetailedBlock({ bike, setVisableDetail, setReload }) {
 
     const [done, setDone] = useState(false);
-    const massiveEployee = employeeMassiv.component
+    const [massiveWorkers, setMassiveWorkers] = useState([])
 
-    const ButtonTwo = styled(Button)({
-        fontSize: 17,
-        color: '#042177',
-        borderColor: '#042177',
-        marginTop: '15px',
-        '&:hover': {
-            borderColor: '#00123A',
-            backgroundColor: "rgba(0, 0, 0, 0.1)",
-            color: '#00123A',
-            boxShadow: 'none',
-        },
-    })
+    useEffect(() => {
+        getAllOfficers()
+        
+    }, [])
 
-    const onSubmitFn = (values) => {
-        console.log('Form Data \n', values)
+    const getAllOfficers = async () => {
+        setMassiveWorkers(await officerApi.getAllOfficers())
+    }
+
+    function onSubmitFn(value) {
+        reportApi.editReport(value._id, value)
+        setReload(true)
+        setVisableDetail(false)
     }
 
 
@@ -36,12 +34,13 @@ export default function DetailedBlock({ bike, setVisableDetail }) {
             type: bike.type,
             ownerFullName: bike.ownerFullName,
             createdAt: bike.createdAt,
-            updatedAt: bike.updatedAt,
-            color: bike.color,
-            date: bike.date,
-            officer: bike.officer,
+            updatedAt: bike.updatedAt === null ? bike.createdAt : bike.updatedAt,
+            color: bike.color || '',
+            date: bike.date || '',
+            officer: bike.officer || '',
             description: bike.description,
-            resolution: bike.resolution,
+            resolution: bike.resolution || '',
+            _id: bike._id
             //clientId: bike.clientId
         },
         validationSchema: yup.object({
@@ -53,26 +52,26 @@ export default function DetailedBlock({ bike, setVisableDetail }) {
             //clientId: yup.string(), //системное//  clientId, уникальный для каждого студента
             createdAt: yup.date(), //автоматом //Дата создания сообщения
             updatedAt: yup.date(), //системное//Дата последнего обновления сообщения
-            color: yup.string(),
-            date: yup.date(), //дата кражи
-            officer: yup.string(), //Ответственный сотрудник
-            description: yup.string(), //название
-            resolution: yup.string(), //комментарий
+            //color: yup.string(),
+            //date: yup.date(), //дата кражи
+            //officer: yup.string(), //Ответственный сотрудник
+            //description: yup.string(), //название
+            //resolution: yup.string(), //комментарий 
         }),
         onSubmit: onSubmitFn
     })
-    
 
+    
     const handleSelect = (event) => {
         setDone(false)
         if (event.target.value === "done") {
             setDone(true)
         }
     }
+
     return (
         <>  
             <form onSubmit={formik.handleSubmit} className="detail">
-
                 <div className='detailBlock'>
                     <label>Статус</label>
                     <select type="number" id="status" name="status" className={`input ${formik.errors.licenseNumber && formik.touched.licenseNumber ? 'Error' : null}`} onChange={event => {formik.handleChange(event); handleSelect(event)}} value={formik.values.status}>
@@ -87,7 +86,7 @@ export default function DetailedBlock({ bike, setVisableDetail }) {
                     {formik.errors.licenseNumber && formik.touched.licenseNumber && (<div className='messageError'>{formik.errors.licenseNumber}</div>)}
 
                     <label>Тип велосипеда</label>
-                    <select /* as="select" */ id="type" name="type" className={`select ${formik.errors.type && formik.touched.type ? 'Error' : null}`} onChange={formik.handleChange} value={formik.values.type}>
+                    <select id="type" name="type" className={`select ${formik.errors.type && formik.touched.type ? 'Error' : null}`} onChange={formik.handleChange} value={formik.values.type}>
                         <option value="general">Обычный</option>
                         <option value="sport">Спортивный</option>
                     </select>
@@ -98,42 +97,44 @@ export default function DetailedBlock({ bike, setVisableDetail }) {
                     {formik.errors.ownerFullName && formik.touched.ownerFullName && (<div className='messageError'>{formik.errors.ownerFullName}</div>)}
 
                     <label>Дата создания</label>
-                    <input type="date" id="createdAt" name="createdAt" className='input'  value={formik.values.createdAt} readOnly/>
+                    <input type="date" id="createdAt" name="createdAt" className='input'  value={formik.values.createdAt.split('T')[0]} readOnly/>
                     
                     <label>Дата последнего обновления</label>
-                    <input type="date" id="updatedAt" name="updatedAt" className='input' value={formik.values.updatedAt} readOnly />
+                    <input type="date" id="updatedAt" name="updatedAt" className='input' value={formik.values.updatedAt.split('T')[0]} readOnly />
                     
-                    <ButtonTwo variant="outlined" size="medium" type='submit'/*  onClick={handleSubmit} */>Изменить</ButtonTwo>
+                    <ButtonThree variant="outlined" size="medium" type='submit'>Изменить</ButtonThree>
                 </div>
 
                 <div className='detailBlock'> {/* второй */}
                     <label>Цвет велосипеда</label>
-                    <input type="text" id="color" name="color" className='input' value={formik.values.color} onChange={formik.handleChange} />
+                    <input type="text" id="color" name="color" className='input' value={formik.values.color || ''} onChange={formik.handleChange} />
                     {/* {formik.errors.color && formik.touched.color && (<div className='messageError'>{formik.errors.color}</div>)} */}
 
                     <label>Дата кражи</label>
-                    <input type="date" id="date" name="date" className='input' value={formik.values.date} onChange={formik.handleChange} />
+                    <input type="date" id="date" name="date" className='input' value={formik.values.date?.split('T')[0] || ''} onChange={formik.handleChange} />
                     
                     <label>Ответственный сотрудник</label>
-                    <select type="text" id="officer" name="officer" className='input' value={formik.values.officer} onChange={formik.handleChange} >
-                        {Object.values(massiveEployee).map(officer => {
-                            if (officer.approved === 'true') {
-                                return <option key={officer.email}>{officer.firstName + ' ' + officer.lastName}</option>
-                            }}
-                            )}
-                    </select>
+                    <select type="text" id="officer" name="officer" className='input' value={formik.values.officer || ''} onChange={formik.handleChange}>
+                        {formik.values.officer === '' && <option value=''>Выберете ответственного</option>}
+                        {massiveWorkers !== [] && massiveWorkers.map(officer => { //////////исправить
+                                if (officer.approved) {
+                                    return <option key={officer._id} value={officer._id}>{officer.firstName + ' ' + officer.lastName}</option>
+                                }
+                            })
+                        }     
+                    </select> 
                                             
                     <label>Комментарий</label>
-                    <input type="text" id="description" name="description" className='input' value={formik.values.description} onChange={formik.handleChange} />
+                    <input type="text" id="description" name="description" className='input' value={formik.values.description  || ''} onChange={formik.handleChange} />
                     
                     {done && <>
                         <label>Завершающий комментарий</label>
                         <input type="text" id="resolution" name="resolution" className='input' value={formik.values.resolution} onChange={formik.handleChange} />
-                    </>} {/* //Завершающий комментарий */}
+                    </>}
                 </div>
                 
+                
                 <div className="exit" onClick={() => setVisableDetail(false)}><h3><b>X</b></h3></div> 
-
             </form>
             <div onClick={() => setVisableDetail(false)} className='overlay' />
         </>

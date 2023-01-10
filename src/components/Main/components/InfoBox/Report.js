@@ -1,39 +1,38 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { reportApi } from '../../../API/reportsApi';
 import { loginApi } from '../../../API/loginApi';
-import { employeeMassiv } from '../../../API/employeeMassiv';
-import { ButtonTwo } from '../../../button/Button';
+//import { employeeMassiv } from '../../../API/employeeMassiv';
+import { ButtonThree } from '../../../button/Button';
+import { officerApi } from '../../../API/officerApi';
 
-export default function Report({ setVisable }) {
+export default function Report({ setVisable, setReload }) {
 
     const token = useMemo(() => localStorage.getItem('token'), [])
-    //const officerID = useMemo(() => localStorage.getItem('officerID'), []) лишнее
+    const [massiveWorkers, setMassiveWorkers] = useState([])
 
     const onSubmitFn = (values) => {
         if (token !== null) {
-            //const transormValues = { ...values, officer: officerID }
-            //console.log(transormValues);
-            //reportApi.newReport(transormValues) //не работает, но должно
+            console.log(values);
+            reportApi.newReport(values) 
+            setReload(true)
         }
         else {
             const transormValues = {...values, clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002'}
             reportApi.newReportNoLogin(transormValues)
         }
         setVisable(false)
-        //console.log('Form Data \n', values)
     }
 
-    const time = () => { //временно
-        //console.log(employeeMassiv.component[0]);
-        loginApi.signIn(employeeMassiv.component[1])
-        console.log('ok');
+    useEffect(() => {
+        getAllOfficers()
+    }, [])
+
+    const getAllOfficers = async () => {
+        setMassiveWorkers(await officerApi.getAllOfficers())
     }
 
-    //time();
-
-    //console.log(officerOrClientId);
     const formik = useFormik({
         initialValues: { 
             licenseNumber: '',
@@ -42,6 +41,7 @@ export default function Report({ setVisable }) {
             color: '',
             date: '',  
             description: '',
+            officer: ''
             /* officer: officerID,
             clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002' */
             //resolution: ''
@@ -52,7 +52,7 @@ export default function Report({ setVisable }) {
             //системное status: yup.string(), //статус 
             licenseNumber: yup.number('Только цифры').positive('Только положительные цифры').required('Обязательное поле'),/* .length(7,'Номер лицензии состоит из 7 цифр') добавить длину*/
             ownerFullName: yup.string().required('Обязательное поле'),
-            type: yup.string(),
+            type: yup.string().required('Обязательное поле'),
             //системное clientId: yup.string().required('Required'), //  clientId, уникальный для каждого студента
             //автоматом createdAt: yup.date().required('Required'),  //Дата создания сообщения
             //системное updatedAt: yup.date(), //Дата последнего обновления сообщения
@@ -64,10 +64,6 @@ export default function Report({ setVisable }) {
         }),
         onSubmit: onSubmitFn
     })
-
-   /*  const handleTask = () => {
-        console.log(formik);
-    } */
 
     return (
         <>  
@@ -82,28 +78,37 @@ export default function Report({ setVisable }) {
                 {formik.errors.ownerFullName && formik.touched.ownerFullName && (<div className='messageError'>{formik.errors.ownerFullName}</div>)}
 
                 <label>Тип велосипеда</label>
-                <select /* as="select" */ id="type" name="type" className='select' onChange={formik.handleChange} value={formik.values.type}>
+                <select id="type" name="type" className={`select ${formik.errors.type && formik.touched.type ? 'Error' : null}`} onChange={formik.handleChange} value={formik.values.type}>
                     <option value="general">Обычный</option>
                     <option value="sport">Спортивный</option>
                 </select>
+                {formik.errors.type && formik.touched.type && (<div className='messageError'>{formik.errors.type}</div>)}
                 
                 <label>Цвет велосипеда</label>
                 <input type="text" id="color" name="color" className='input' onChange={formik.handleChange}/>
-                {/* {formik.errors.color && formik.touched.color && (<div className='messageError'>{formik.errors.color}</div>)} */}
 
                 <label>Дата кражи</label>
                 <input type="date" id="date" name="date" className='input' onChange={formik.handleChange}/>
                 
-                {/* <label>Ответственный сотрудник</label>
-                <input type="text" id="officer" name="officer" className='input' /> */}
-                                        
                 <label>Комментарий</label>
-                <input type="text" id="description" name="description" className='input' onChange={formik.handleChange}/>
+                <input type="text" id="description" name="description" className='input' onChange={formik.handleChange} />
                 
-               {/*  <label>Дополнительный комментарий</label>
-                <input type="text" id="resolution" name="resolution" className='input' /> */}
+                {token !== null &&
+                    <>
+                        <label>Ответственный сотрудник</label>
+                        <select type="text" id="officer" name="officer" className='input' value={formik.values.officer} onChange={formik.handleChange}>
+                            {formik.values.officer === '' && <option>Выберете ответственного</option>}
+                            {massiveWorkers !== [] && massiveWorkers.map(officer => {
+                                    if (officer.approved) {
+                                        return <option key={officer._id} value={officer._id}>{officer.firstName + ' ' + officer.lastName}</option>
+                                    }
+                                })
+                            }     
+                        </select>
+                    </>
+                }
                 
-                <ButtonTwo size="medium" variant="outlined" type='submit'/* onClick={handleTask} */ >Добавить</ButtonTwo>
+                <ButtonThree size="medium" variant="outlined" type='submit'/* onClick={handleTask} */ >Добавить</ButtonThree>
 
             </form>
             <div onClick={() => setVisable(false)} className='overlay' />

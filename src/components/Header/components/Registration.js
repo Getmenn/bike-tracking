@@ -1,35 +1,15 @@
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import './componentsHeader.scss'
 import { officerApi } from '../../API/officerApi';
-import { useDispatch} from "react-redux";
-import { addOfficer } from '../../Redux/firstReducer';
+import { ButtonTwo } from '../../button/Button';
 
 export default function Registration({ setVisableRegistration, handleLogin }) {
-    const dispatch = useDispatch(); //диспач
-    /* const customers = useSelector(state => state.customers.customers) */
-
-    const ButtonTwo = styled(Button)({
-        fontSize: 14,
-        color: '#042177',
-        borderColor: '#042177',
-        marginTop: '23px',
-        '&:hover': {
-            borderColor: '#00123A',
-            backgroundColor: "rgba(0, 0, 0, 0.1)",
-            color: '#00123A',
-            boxShadow: 'none',
-        },
-    })
 
     async function onSubmitFn(values) { 
         const result = await officerApi.newOfficer(values) 
-        console.log(result);
         if (result  !== null) {
             setVisableRegistration(false)
-            console.log('closed');
         } else {
             formik.errors.email = true
             formik.touched.email = true
@@ -76,7 +56,7 @@ export default function Registration({ setVisableRegistration, handleLogin }) {
                 <input type="password" id="password" name="password" className={`input ${formik.errors.password && formik.touched.password ? 'Error' : null}`}  onChange={formik.handleChange}/>
                 {formik.errors.password && formik.touched.password && (<div className='messageError'>{formik.errors.password}</div>)}
                 
-                <ButtonTwo variant="outlined" size="small" type='submit'>Войти</ButtonTwo>
+                <ButtonTwo variant="outlined" size="small" type='submit'>Регистрация</ButtonTwo>
             </form>
             <div onClick={() => setVisableRegistration(false)} className='overlay' />
         </>

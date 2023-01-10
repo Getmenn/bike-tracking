@@ -20,7 +20,7 @@ import { OfficerPage } from './components/OfficerPage';
 
 
 
-export default function Header() {
+export default function Header({token, setToken}) {
     const [anchorEl, setAnchorEl] = useState(null);
     //const [visable, setVisable] = useState(false)
     const [login, setlogin] = useState(false)
@@ -30,6 +30,7 @@ export default function Header() {
     const [visableOfficer, setVisableOfficer] = useState(false)
 
     const user = useMemo(() => JSON.parse(localStorage.getItem('user')), [login])
+     
 
     const open = Boolean(anchorEl);
 
@@ -44,15 +45,19 @@ export default function Header() {
     const handleLogout = () => {
         setlogin(false)
         localStorage.removeItem('token')
+        setToken(null)
         localStorage.removeItem('user')
     }
 
-    useEffect( () => {
+    useEffect(() => {
         if (localStorage.getItem('token') !== null) {
+            setToken(localStorage.getItem('token'))
             loginApi.checkToken()  
             setlogin(true)
         }
-    },[visableLogin])
+    }, [visableLogin])
+    
+    
 
     return (
         <>

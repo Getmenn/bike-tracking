@@ -9,7 +9,7 @@
     align-content: flex-start;
 }
 
-.input.Error{  //ошибки 
+.input.Error, .select.Error{
     border: 1px solid #9e0000;
 }
 
@@ -18,13 +18,3 @@
     color: #9e0000;
     margin: 5px 0px;
 }
-
-
-
-/* .block{
-    height: 300px;
-    width: 150px;
-    border: 1px solid black;
-    border-radius: 5px;
-    background: rgb(222, 67, 202);
-} */
