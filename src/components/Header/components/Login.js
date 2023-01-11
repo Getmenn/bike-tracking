@@ -6,10 +6,11 @@ import './componentsHeader.scss'
 import { loginApi } from '../../API/loginApi';
 import { useDispatch} from "react-redux";
 import { addOfficer } from '../../Redux/firstReducer';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login({ setVisableLogin, handleLogin }) {
-    const dispatch = useDispatch(); //диспач
-    /* const customers = useSelector(state => state.customers.customers) */
+
+    const navigate = useNavigate();
 
     const ButtonTwo = styled(Button)({
         fontSize: 14,
@@ -24,12 +25,13 @@ export default function Login({ setVisableLogin, handleLogin }) {
         },
     })
 
-    async function onSubmitFn (values) { 
+    async function onSubmitFn(values) { 
+        
         const officer = await loginApi.signIn(values)
-        //dispatch(addOfficer(officer)) //добавление в редакс активного сотрудника
 
         if (localStorage.getItem('token') !== null ) {
             setVisableLogin(false)
+            navigate('/')
         }
         else {
             alert('Email или логин не верны')
@@ -67,7 +69,10 @@ export default function Login({ setVisableLogin, handleLogin }) {
                 
                 <ButtonTwo variant="outlined" size="small" type='submit'>Войти</ButtonTwo>
             </form>
-            <div onClick={() => setVisableLogin(false)} className='overlay' />
+            <div onClick={() => {
+                navigate('/')
+                setVisableLogin(false)
+            }} className='overlay' />
         </>
     )
 }

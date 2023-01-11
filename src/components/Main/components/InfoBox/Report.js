@@ -6,11 +6,13 @@ import { loginApi } from '../../../API/loginApi';
 //import { employeeMassiv } from '../../../API/employeeMassiv';
 import { ButtonThree } from '../../../button/Button';
 import { officerApi } from '../../../API/officerApi';
+import { useNavigate } from 'react-router-dom';
 
 export default function Report({ setVisable, setReload }) {
 
     const token = useMemo(() => localStorage.getItem('token'), [])
     const [massiveWorkers, setMassiveWorkers] = useState([])
+    const navigate = useNavigate();
 
     const onSubmitFn = (values) => {
         if (token !== null) {
@@ -23,6 +25,7 @@ export default function Report({ setVisable, setReload }) {
             reportApi.newReportNoLogin(transormValues)
         }
         setVisable(false)
+        navigate('/')
     }
 
     useEffect(() => {
@@ -68,7 +71,10 @@ export default function Report({ setVisable, setReload }) {
     return (
         <>  
             <form onSubmit={formik.handleSubmit} className="report">
-                <div className="exit" onClick={() => setVisable(false)}><h3><b>X</b></h3></div>
+                <div className="exit" onClick={() => {
+                    navigate('/')
+                    setVisable(false)
+                }}><h3><b>X</b></h3></div>
                 <label>Номер лицензии</label>
                 <input type="number"  id="licenseNumber" name="licenseNumber" className={`input ${formik.errors.licenseNumber && formik.touched.licenseNumber ? 'Error' : null}`} onChange={formik.handleChange} value={formik.values.licenseNumber}/>
                 {formik.errors.licenseNumber && formik.touched.licenseNumber && (<div className='messageError'>{formik.errors.licenseNumber}</div>)}
@@ -108,10 +114,13 @@ export default function Report({ setVisable, setReload }) {
                     </>
                 }
                 
-                <ButtonThree size="medium" variant="outlined" type='submit'/* onClick={handleTask} */ >Добавить</ButtonThree>
+                <ButtonThree size="medium" variant="outlined" type='submit'>Добавить</ButtonThree>
 
             </form>
-            <div onClick={() => setVisable(false)} className='overlay' />
+            <div onClick={() => {
+                navigate('/')
+                setVisable(false)
+            }} className='overlay' />
         </>
     )
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
-
+import { Route, Routes} from "react-router-dom";
 
 function App() {
  
@@ -9,8 +9,10 @@ function App() {
 
   return (
     <>
-      <Header token={token} setToken={setToken} />
-      <Main token={token} setToken={setToken} />
+      <Header token={token} setToken={setToken}/>
+        <Routes>
+          <Route path='/*' element={<Main token={token} setToken={setToken}/>} />
+        </Routes>
     </>
   );
 }

@@ -3,13 +3,17 @@ import * as yup from 'yup'
 import './componentsHeader.scss'
 import { officerApi } from '../../API/officerApi';
 import { ButtonTwo } from '../../button/Button';
+import { useNavigate } from 'react-router-dom';
 
 export default function Registration({ setVisableRegistration, handleLogin }) {
+
+    const navigate = useNavigate();
 
     async function onSubmitFn(values) { 
         const result = await officerApi.newOfficer(values) 
         if (result  !== null) {
             setVisableRegistration(false)
+            navigate('/')
         } else {
             formik.errors.email = true
             formik.touched.email = true
@@ -41,7 +45,10 @@ export default function Registration({ setVisableRegistration, handleLogin }) {
     return (
         <>
             <form onSubmit={formik.handleSubmit} className="registration">
-                <div className="exit" onClick={() => setVisableRegistration(false)}><h3><b>X</b></h3></div>
+                <div className="exit" onClick={() => {
+                    navigate('/')
+                    setVisableRegistration(false)
+                }}><h3><b>X</b></h3></div>
                 <label>Имя</label>
                 <input type="text" id="firstName" name="firstName" className='input' onChange={formik.handleChange} />
                 
@@ -58,7 +65,10 @@ export default function Registration({ setVisableRegistration, handleLogin }) {
                 
                 <ButtonTwo variant="outlined" size="small" type='submit'>Регистрация</ButtonTwo>
             </form>
-            <div onClick={() => setVisableRegistration(false)} className='overlay' />
+            <div onClick={() => {
+                navigate('/')
+                setVisableRegistration(false)
+            }} className='overlay' />
         </>
     )
 }

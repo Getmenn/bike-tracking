@@ -7,12 +7,15 @@ import done from '../../../../../svg/done.svg'
 import delet from '../../../../../svg/delete.svg'
 import { reportApi } from '../../../../API/reportsApi';
 import { ButtonTwo } from '../../../../button/Button';
+import { useNavigate } from 'react-router-dom';
+import { Route, Routes} from "react-router-dom";
 
 
 export default function Block({ bike, setReload }) {
     
     const [visableDetail, setVisableDetail] = useState(false)
-    
+    const navigate = useNavigate();
+
     const handleDelete = () => {
         const result = window.confirm('Хотите удалить случай кражи из базы данных?');
         if (result) {
@@ -37,10 +40,15 @@ export default function Block({ bike, setReload }) {
                     <p><b>Цвет:</b> {bike.color}</p>
                     <p><b>Дата кражи:</b> {bike.date?.split('T')[0]}</p>
                 </div>
-                <ButtonTwo variant="outlined" size='small' onClick={() => setVisableDetail(true)}>Подробнее</ButtonTwo>
+                <ButtonTwo variant="outlined" size='small' onClick={() => {
+                    navigate(`cases/${bike._id}`)
+                    setVisableDetail(true)
+                }}>Подробнее</ButtonTwo>
             </div>
-            {visableDetail && <DetailedBlock bike={bike} setVisableDetail={setVisableDetail} setReload={setReload} />}
-    
+
+            <Routes>
+                {visableDetail && <Route path='cases/:id' element={<DetailedBlock bike={bike} setVisableDetail={setVisableDetail} setReload={setReload} />} /> }
+            </Routes>
         </>
     )
 }

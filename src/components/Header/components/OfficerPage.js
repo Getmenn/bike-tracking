@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { ButtonTwo } from "../../button/Button";
 import { officerApi } from "../../API/officerApi";
+import { useNavigate } from "react-router-dom";
 
 export const OfficerPage = ({ officer, setVisableOfficer, info = false }) => {
 
     const [officerS, setOfficerS] = useState({})
+    const navigate = useNavigate();
     
     useEffect(() => {
         if (info) {
@@ -45,12 +47,16 @@ export const OfficerPage = ({ officer, setVisableOfficer, info = false }) => {
     const handleSubmit = async() => {
         await officerApi.editOfficer(officer._id, officerS)
         setVisableOfficer(false)
+        navigate(info ? '/' : 'officers')
     }
 
     return (
         <>
             <div className="officerPage">
-                <div className="exit" onClick={() => setVisableOfficer(false)}><h3><b>X</b></h3></div>
+                <div className="exit" onClick={() => {
+                    navigate(info ? '/' : 'officers')
+                    setVisableOfficer(false)
+                }}><h3><b>X</b></h3></div>
                 
                 <p className="fio">
                     <input type="text" defaultValue={officerS.firstName} id='firstName' onChange={(e) => handleChange(e)} readOnly={info} />
@@ -71,6 +77,10 @@ export const OfficerPage = ({ officer, setVisableOfficer, info = false }) => {
                 }
                 {info === false && <ButtonTwo size='small' variant="outlined" onClick={() => handleSubmit()}>Сохранить</ButtonTwo>}
             </div> 
+            <div onClick={() => {
+                navigate(info ? '/' : 'officers')
+                setVisableOfficer(false)
+            }} className='overlay' />
         </>
     )
 }

@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Login from './components/Login';
 import { loginApi } from '../API/loginApi';
 import OfficerList from './components/OfficerList';
+import { useNavigate } from "react-router-dom";
+import { Route, Routes} from "react-router-dom";
 
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -28,9 +30,11 @@ export default function Header({token, setToken}) {
     const [visableRegistration, setVisableRegistration] = useState(false)
     const [visableList, setVisableList] = useState(false)
     const [visableOfficer, setVisableOfficer] = useState(false)
+    const navigate = useNavigate();
+
+    
 
     const user = useMemo(() => JSON.parse(localStorage.getItem('user')), [login])
-     
 
     const open = Boolean(anchorEl);
 
@@ -50,6 +54,7 @@ export default function Header({token, setToken}) {
     }
 
     useEffect(() => {
+        /* navigate('/header') */
         if (localStorage.getItem('token') !== null) {
             setToken(localStorage.getItem('token'))
             loginApi.checkToken()  
@@ -114,45 +119,60 @@ export default function Header({token, setToken}) {
                     >
                         {login === false
                             &&
-                            <MenuItem style={{ width: '150px' }} onClick={() => setVisableLogin(true)}>
+                            <MenuItem style={{ width: '150px' }} onClick={() => {
+                                navigate('/login')
+                                setVisableLogin(true)
+                            }}>
                                 <p>Login</p>
                             </MenuItem>
                         
                         }
                         {login &&
                                 <div>
-                                    <MenuItem onClick={() => setVisableOfficer(true)}>
+                                        <MenuItem onClick={() => {
+                                            navigate(`officers/${user.id}`)//исправить
+                                            setVisableOfficer(true)
+                                        }}>
                                         <Avatar /> Профиль
                                         </MenuItem>
                                         <Divider />
-                                    <MenuItem onClick={() => setVisableRegistration(true)}>
+                                        <MenuItem onClick={() => {
+                                            navigate('registration')
+                                            setVisableRegistration(true)
+                                        }}>
                                         <ListItemIcon>
                                             <PersonAdd fontSize="small" />
                                         </ListItemIcon>
-                                        Добавить сотрудника
-                                    </MenuItem>
-                                    <MenuItem onClick={() => setVisableList(true)}>
+                                            Добавить сотрудника
+                                        </MenuItem>
+                                        <MenuItem onClick={() => {
+                                            navigate('officers')
+                                            setVisableList(true)
+                                        }}>
                                         <ListItemIcon >
                                             <BallotIcon fontSize="small" />
                                         </ListItemIcon>
-                                        Список сотрудников
-                                    </MenuItem>
-                                    <MenuItem onClick={handleLogout}>
-                                        <ListItemIcon>
-                                            <Logout fontSize="small" />
-                                        </ListItemIcon>
-                                        Выход                          
-                                    </MenuItem>
+                                            Список сотрудников
+                                        </MenuItem>
+                                        <MenuItem onClick={handleLogout}>
+                                            <ListItemIcon>
+                                                <Logout fontSize="small" />
+                                            </ListItemIcon>
+                                            Выход                          
+                                        </MenuItem>
                                 </div>
                         }
                         </Menu>
                         
                 </div>
             </div>
-            {visableOfficer && <OfficerPage officer={user} setVisableOfficer={setVisableOfficer} info={true}/>}
-            {visableLogin && <Login setVisableLogin={setVisableLogin} />}
-            {visableRegistration && <Registration setVisableRegistration={setVisableRegistration} />}
-            {visableList && <OfficerList setVisableList={setVisableList} />}
+            <Routes>
+                {visableOfficer && <Route path='officers/:id' element={<OfficerPage officer={user} setVisableOfficer={setVisableOfficer} info={true} />} />}
+                {visableLogin &&  <Route path='login' element={<Login setVisableLogin={setVisableLogin} />} />}
+                {visableRegistration && <Route path='registration' element={<Registration setVisableRegistration={setVisableRegistration} />} />}
+                {visableList && <Route path='officers/*' element={<OfficerList setVisableList={setVisableList} />} />} 
+            </Routes>       
+            {/* {visableList && <OfficerList setVisableList={setVisableList} />} */}
         </>
     )
 }

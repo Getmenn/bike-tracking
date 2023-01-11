@@ -5,15 +5,16 @@ import './block.scss'
 import { ButtonThree } from '../../../../button/Button'
 import { officerApi } from '../../../../API/officerApi'
 import { reportApi } from '../../../../API/reportsApi'
+import { useNavigate } from "react-router-dom";
 
 export default function DetailedBlock({ bike, setVisableDetail, setReload }) {
 
     const [done, setDone] = useState(false);
     const [massiveWorkers, setMassiveWorkers] = useState([])
+    const navigate = useNavigate();
 
     useEffect(() => {
         getAllOfficers()
-        
     }, [])
 
     const getAllOfficers = async () => {
@@ -24,6 +25,7 @@ export default function DetailedBlock({ bike, setVisableDetail, setReload }) {
         reportApi.editReport(value._id, value)
         setReload(true)
         setVisableDetail(false)
+        navigate('/')
     }
 
 
@@ -108,7 +110,6 @@ export default function DetailedBlock({ bike, setVisableDetail, setReload }) {
                 <div className='detailBlock'> {/* второй */}
                     <label>Цвет велосипеда</label>
                     <input type="text" id="color" name="color" className='input' value={formik.values.color || ''} onChange={formik.handleChange} />
-                    {/* {formik.errors.color && formik.touched.color && (<div className='messageError'>{formik.errors.color}</div>)} */}
 
                     <label>Дата кражи</label>
                     <input type="date" id="date" name="date" className='input' value={formik.values.date?.split('T')[0] || ''} onChange={formik.handleChange} />
@@ -116,7 +117,7 @@ export default function DetailedBlock({ bike, setVisableDetail, setReload }) {
                     <label>Ответственный сотрудник</label>
                     <select type="text" id="officer" name="officer" className='input' value={formik.values.officer || ''} onChange={formik.handleChange}>
                         {formik.values.officer === '' && <option value=''>Выберете ответственного</option>}
-                        {massiveWorkers !== [] && massiveWorkers.map(officer => { //////////исправить
+                        {massiveWorkers !== [] && massiveWorkers.map(officer => {
                                 if (officer.approved) {
                                     return <option key={officer._id} value={officer._id}>{officer.firstName + ' ' + officer.lastName}</option>
                                 }
@@ -129,14 +130,20 @@ export default function DetailedBlock({ bike, setVisableDetail, setReload }) {
                     
                     {done && <>
                         <label>Завершающий комментарий</label>
-                        <input type="text" id="resolution" name="resolution" className='input' value={formik.values.resolution} onChange={formik.handleChange} />
+                        <input type="text" id="resolution" name="resolution" className='input' value={formik.values.resolution} onChange={formik.handleChange} required/>
                     </>}
                 </div>
                 
                 
-                <div className="exit" onClick={() => setVisableDetail(false)}><h3><b>X</b></h3></div> 
+                <div className="exit" onClick={() => {
+                    navigate('/')
+                    setVisableDetail(false)
+                }}><h3><b>X</b></h3></div> 
             </form>
-            <div onClick={() => setVisableDetail(false)} className='overlay' />
+            <div onClick={() => {
+                navigate('/')
+                setVisableDetail(false)
+            }} className='overlay' />
         </>
     )
 }
