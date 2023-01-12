@@ -20,5 +20,9 @@ export const reportApi = {
     deleteReport: async (id) => { // редaктирование кражи
         const response = await mainAuto.delete (`/api/cases/${id}`);
         return console.log(response.data); 
+    },
+    getReport:async (id) => { // получение информации по конкретному сообщению о краже
+        const response = await mainAuto.get (`/api/cases/${id}`);
+        return response.data.data; 
     }
 }

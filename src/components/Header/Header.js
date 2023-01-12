@@ -24,7 +24,6 @@ import { OfficerPage } from './components/OfficerPage';
 
 export default function Header({token, setToken}) {
     const [anchorEl, setAnchorEl] = useState(null);
-    //const [visable, setVisable] = useState(false)
     const [login, setlogin] = useState(false)
     const [visableLogin, setVisableLogin] = useState(false)
     const [visableRegistration, setVisableRegistration] = useState(false)
@@ -120,7 +119,7 @@ export default function Header({token, setToken}) {
                         {login === false
                             &&
                             <MenuItem style={{ width: '150px' }} onClick={() => {
-                                navigate('/login')
+                                navigate('login')
                                 setVisableLogin(true)
                             }}>
                                 <p>Login</p>
@@ -130,7 +129,7 @@ export default function Header({token, setToken}) {
                         {login &&
                                 <div>
                                         <MenuItem onClick={() => {
-                                            navigate(`officers/${user.id}`)//исправить
+                                            navigate(`officers/${user.id}`)
                                             setVisableOfficer(true)
                                         }}>
                                         <Avatar /> Профиль
@@ -166,12 +165,12 @@ export default function Header({token, setToken}) {
                         
                 </div>
             </div>
-            <Routes>
+            {/*  <Routes>
                 {visableOfficer && <Route path='officers/:id' element={<OfficerPage officer={user} setVisableOfficer={setVisableOfficer} info={true} />} />}
                 {visableLogin &&  <Route path='login' element={<Login setVisableLogin={setVisableLogin} />} />}
                 {visableRegistration && <Route path='registration' element={<Registration setVisableRegistration={setVisableRegistration} />} />}
                 {visableList && <Route path='officers/*' element={<OfficerList setVisableList={setVisableList} />} />} 
-            </Routes>       
+            </Routes>    */}    
             {/* {visableList && <OfficerList setVisableList={setVisableList} />} */}
         </>
     )

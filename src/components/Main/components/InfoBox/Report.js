@@ -8,11 +8,12 @@ import { ButtonThree } from '../../../button/Button';
 import { officerApi } from '../../../API/officerApi';
 import { useNavigate } from 'react-router-dom';
 
-export default function Report({ setVisable, setReload }) {
+export default function Report({ setVisable, setReload, /* data */ }) {
 
     const token = useMemo(() => localStorage.getItem('token'), [])
     const [massiveWorkers, setMassiveWorkers] = useState([])
     const navigate = useNavigate();
+    //console.log(data, setVisable);
 
     const onSubmitFn = (values) => {
         if (token !== null) {

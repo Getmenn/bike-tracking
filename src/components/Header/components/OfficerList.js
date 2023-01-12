@@ -53,9 +53,9 @@ export default function OfficerList({ setVisableList }) {
                     </div>
                 )}
             </div>
-             <Routes>
+            {/*  <Routes>
                 {visableOfficer && <Route path=':id' element={<OfficerPage officer={officerInfo} setVisableOfficer={setVisableOfficer}/>} />}
-            </Routes>  
+            </Routes>   */}
             {/* {visableOfficer && <OfficerPage officer={officerInfo} setVisableOfficer={setVisableOfficer} />} */}
             {/* {visableOfficer && <Route to='/officers/:id' element={<OfficerPage officer={officerInfo} setVisableOfficer={setVisableOfficer}/>} />} */}
             <div onClick={() => {

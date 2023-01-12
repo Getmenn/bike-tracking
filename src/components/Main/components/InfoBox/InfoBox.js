@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Report from './Report';
 import './infoBox.scss'
 import { ButtonOne } from '../../../button/Button';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate, Link, NavLink  } from 'react-router-dom';
 
 export default function InfoBox({ setReload }) {
     
@@ -20,11 +20,12 @@ export default function InfoBox({ setReload }) {
                         setVisable(!visable)
                     }}>Сообщить о краже</ButtonOne>
                 </div>
-                <Routes>
+                {/* <Routes>
                     {visable && <Route path='report' element={<Report setVisable={setVisable} setReload={setReload} />} />}
-                </Routes>
-                {/* {visable && <Report setVisable={setVisable} setReload={setReload} />} */}
+                </Routes>  */}
+                 {/* {visable && <Link to='report' setVisable={setVisable} setReload={setReload} />} */} 
                 
+                {/* {visable && <Report setVisable={setVisable} setReload={setReload} data={ '123'} />} */}
                 <img className='infoBox-image' src="https://sarvelo.ru/wp-content/uploads/f/5/b/f5bcc82980d8f827760dead323bcc6d9.jpg" alt="Велосипед" />
             </div>
         </div>

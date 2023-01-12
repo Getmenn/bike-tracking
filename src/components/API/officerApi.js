@@ -25,7 +25,7 @@ export const officerApi = {
             return null
         }
     },
-    deleteOfficer:async (id) => { //удаление сотрудника
+    deleteOfficer: async (id) => { //удаление сотрудника
         try {
             const response = await mainAuto.delete(`/api/officers/${id}`);
             return console.log(response.data);

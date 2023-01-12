@@ -41,14 +41,15 @@ export default function Block({ bike, setReload }) {
                     <p><b>Дата кражи:</b> {bike.date?.split('T')[0]}</p>
                 </div>
                 <ButtonTwo variant="outlined" size='small' onClick={() => {
-                    navigate(`cases/${bike._id}`)
+                    
                     setVisableDetail(true)
+                    navigate(`cases/${bike._id}`)
                 }}>Подробнее</ButtonTwo>
             </div>
 
-            <Routes>
+            {/* <Routes>
                 {visableDetail && <Route path='cases/:id' element={<DetailedBlock bike={bike} setVisableDetail={setVisableDetail} setReload={setReload} />} /> }
-            </Routes>
+            </Routes>  */}
         </>
     )
 }
