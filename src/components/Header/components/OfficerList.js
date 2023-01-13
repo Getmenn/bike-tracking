@@ -5,26 +5,32 @@ import { useEffect, useState } from 'react';
 import { officerApi } from '../../API/officerApi';
 import { useDispatch } from 'react-redux'
 import { OfficerPage } from './OfficerPage';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { addAllOfficers } from '../../Redux/firstReducer'
 
 
 export default function OfficerList() {
     
     const [officers, setOfficers] = useState([])
-    const [visableOfficer, setVisableOfficer] = useState(false)
-    const [officerInfo, setOfficerInfo] = useState({})
+    //const [visableOfficer, setVisableOfficer] = useState(false)
+    //const [officerInfo, setOfficerInfo] = useState({})
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
+    //console.log(location);
+
+    
     
     useEffect(() => {
-        const getOfficers = async() => {
+        const getOfficers = async () => {
+            console.log('getOfficers');
             const officersMass = await officerApi.getAllOfficers();
-            setOfficers(officersMass)
+            setOfficers(await officersMass)
             dispatch(addAllOfficers(officersMass))
         }
         getOfficers()
-    }, [visableOfficer]) //присмтреться
+    }, [location.state]) //присмтреться
+
 
     const handleDelet = async(id, name, lastName) => {
         await officerApi.deleteOfficer(id);
@@ -35,9 +41,8 @@ export default function OfficerList() {
 
     
     const handleVisableInfo = ( officer ) => {
-        navigate(`/officers/${officer._id}`)
-        setVisableOfficer(true) //присмтреться
-        setOfficerInfo(officer)
+        navigate(`/officers/${officer._id}`, { state: { message: "officer" }})
+        //setOfficerInfo(officer)
     }
     
     

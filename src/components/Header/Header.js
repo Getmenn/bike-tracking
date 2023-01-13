@@ -1,10 +1,7 @@
 import './header.scss'
 import React, { useEffect, useMemo, useState } from 'react';
-import Login from './components/Login';
 import { loginApi } from '../API/loginApi';
-import OfficerList from './components/OfficerList';
-import { useNavigate } from "react-router-dom";
-import { Route, Routes} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -15,35 +12,22 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Logout from '@mui/icons-material/Logout';
-import Registration from './components/Registration';
 import BallotIcon from '@mui/icons-material/Ballot';
-import { OfficerPage } from './components/OfficerPage';
+import { officerApi } from '../API/officerApi';
+import { useDispatch } from 'react-redux';
+import { addAllOfficers } from '../Redux/firstReducer';
 
 
 
 
 export default function Header({token, setToken}) {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [login, setlogin] = useState(false)
-    const [visableLogin, setVisableLogin] = useState(false)
-    //const [visableRegistration, setVisableRegistration] = useState(false)
-    //const [visableList, setVisableList] = useState(false)
-    //const [visableOfficer, setVisableOfficer] = useState(false)
+    const [login, setlogin] = useState(false);
+    const location = useLocation();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    
-
     const user = useMemo(() => JSON.parse(localStorage.getItem('user')), [login])
-
-    const open = Boolean(anchorEl);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const handleLogout = () => {
         setlogin(false)
@@ -52,16 +36,33 @@ export default function Header({token, setToken}) {
         localStorage.removeItem('user')
     }
 
+     /* useEffect(() => { //добавить
+        console.log('getOfficers');
+        const getOfficers = async () => {
+            const officersMass = await officerApi.getAllOfficers();
+            //setOfficers(await officersMass)
+            dispatch(addAllOfficers(officersMass))
+        }
+        getOfficers()
+    }, [location.state])  */
+
     useEffect(() => {
-        /* navigate('/header') */
         if (localStorage.getItem('token') !== null) {
             setToken(localStorage.getItem('token'))
             loginApi.checkToken()  
             setlogin(true)
         }
-    }, [visableLogin])
+    }, [location?.state?.data])
     
-    
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
 
     return (
         <>
@@ -161,13 +162,6 @@ export default function Header({token, setToken}) {
                         
                 </div>
             </div>
-            {/*  <Routes>
-                {visableOfficer && <Route path='officers/:id' element={<OfficerPage officer={user} setVisableOfficer={setVisableOfficer} info={true} />} />}
-                {visableLogin &&  <Route path='login' element={<Login setVisableLogin={setVisableLogin} />} />}
-                {visableRegistration && <Route path='registration' element={<Registration setVisableRegistration={setVisableRegistration} />} />}
-                {visableList && <Route path='officers/*' element={<OfficerList setVisableList={setVisableList} />} />} 
-            </Routes>    */}    
-            {/* {visableList && <OfficerList setVisableList={setVisableList} />} */}
         </>
     )
 }

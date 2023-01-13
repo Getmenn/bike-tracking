@@ -8,7 +8,7 @@ import { useDispatch} from "react-redux";
 import { addOfficer } from '../../Redux/firstReducer';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login({ setVisableLogin, handleLogin }) {
+export default function Login() {
 
     const navigate = useNavigate();
 
@@ -27,18 +27,14 @@ export default function Login({ setVisableLogin, handleLogin }) {
 
     async function onSubmitFn(values) { 
         
-        const officer = await loginApi.signIn(values)
+        await loginApi.signIn(values)
 
-        if (localStorage.getItem('token') !== null ) {
-            setVisableLogin(false)
-            navigate('/')
+        if (localStorage.getItem('token') !== null) {
+            navigate('/', { state: { message: "Reload main", data: 'login'}})
         }
         else {
             alert('Email или логин не верны')
         }
-        //setVisableLogin(false)
-        //setVisable(false)
-        //console.log('Form Data \n', values)
     }
 
     const formik = useFormik({
@@ -47,8 +43,6 @@ export default function Login({ setVisableLogin, handleLogin }) {
             password: ''
         },
         validationSchema: yup.object({
-            //email: yup.string().required('Required').email('Invalid email add'),
-            //системное status: yup.string(), //статус 
             email: yup.string().required('Обязательное поле').email(),
             password: yup.string().required('Обязательное поле')
         }),
@@ -71,7 +65,6 @@ export default function Login({ setVisableLogin, handleLogin }) {
             </form>
             <div onClick={() => {
                 navigate('/')
-                setVisableLogin(false)
             }} className='overlay' />
         </>
     )

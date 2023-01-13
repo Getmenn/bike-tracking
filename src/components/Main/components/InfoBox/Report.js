@@ -2,13 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { reportApi } from '../../../API/reportsApi';
-import { loginApi } from '../../../API/loginApi';
-//import { employeeMassiv } from '../../../API/employeeMassiv';
 import { ButtonThree } from '../../../button/Button';
 import { officerApi } from '../../../API/officerApi';
 import { useNavigate } from 'react-router-dom';
 
-export default function Report(/*{ setVisable, setReload,  data  }*/) {
+export default function Report() {
 
     const token = useMemo(() => localStorage.getItem('token'), [])
     const [massiveWorkers, setMassiveWorkers] = useState([])
@@ -18,18 +16,19 @@ export default function Report(/*{ setVisable, setReload,  data  }*/) {
         if (token !== null) {
             console.log(values);
             reportApi.newReport(values) 
-            //setReload(true)
+            navigate('/', { state: { message: "Reload main" }})
         }
         else {
             const transormValues = {...values, clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002'}
             reportApi.newReportNoLogin(transormValues)
-        }
-        //setVisable(false)
-        navigate('/')
+            navigate('/')
+        }   
     }
 
     useEffect(() => {
-        getAllOfficers()
+        if (token !== null) {
+            getAllOfficers()
+        }
     }, [])
 
     const getAllOfficers = async () => {
@@ -39,7 +38,7 @@ export default function Report(/*{ setVisable, setReload,  data  }*/) {
     const formik = useFormik({
         initialValues: { 
             licenseNumber: '',
-            type: '',
+            type: 'general',
             ownerFullName: '',
             color: '',
             date: '',  
@@ -73,7 +72,6 @@ export default function Report(/*{ setVisable, setReload,  data  }*/) {
             <form onSubmit={formik.handleSubmit} className="report">
                 <div className="exit" onClick={() => {
                     navigate('/')
-                    //setVisable(false)
                 }}><h3><b>X</b></h3></div>
                 <label>Номер лицензии</label>
                 <input type="number"  id="licenseNumber" name="licenseNumber" className={`input ${formik.errors.licenseNumber && formik.touched.licenseNumber ? 'Error' : null}`} onChange={formik.handleChange} value={formik.values.licenseNumber}/>
@@ -119,7 +117,6 @@ export default function Report(/*{ setVisable, setReload,  data  }*/) {
             </form>
             <div onClick={() => {
                 navigate('/')
-                //setVisable(false)
             }} className='overlay' />
         </>
     )

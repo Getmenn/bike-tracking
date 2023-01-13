@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import './block.scss'
-import DetailedBlock from './DetailedBlock';
 import newIcon from '../../../../../svg/new.svg'
 import inProgress from '../../../../../svg/inProgress.svg'
 import done from '../../../../../svg/done.svg'
@@ -8,19 +6,18 @@ import delet from '../../../../../svg/delete.svg'
 import { reportApi } from '../../../../API/reportsApi';
 import { ButtonTwo } from '../../../../button/Button';
 import { useNavigate } from 'react-router-dom';
-import { Route, Routes} from "react-router-dom";
 
 
-export default function Block({ bike, setReload }) {
+
+export default function Block({ bike }) {
     
-    const [visableDetail, setVisableDetail] = useState(false)
     const navigate = useNavigate();
 
     const handleDelete = () => {
         const result = window.confirm('Хотите удалить случай кражи из базы данных?');
         if (result) {
             reportApi.deleteReport(bike._id)
-            setReload(true)
+            navigate('/', { state: { message: "Reload main" }})
         }       
     }
 
@@ -41,15 +38,9 @@ export default function Block({ bike, setReload }) {
                     <p><b>Дата кражи:</b> {bike.date?.split('T')[0]}</p>
                 </div>
                 <ButtonTwo variant="outlined" size='small' onClick={() => {
-                    
-                    setVisableDetail(true)
-                    navigate(`cases/${bike._id}`)
+                    navigate(`cases/${bike._id}`, { state: { message: "report" }})
                 }}>Подробнее</ButtonTwo>
             </div>
-
-            {/* <Routes>
-                {visableDetail && <Route path='cases/:id' element={<DetailedBlock bike={bike} setVisableDetail={setVisableDetail} setReload={setReload} />} /> }
-            </Routes>  */}
         </>
     )
 }
