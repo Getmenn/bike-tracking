@@ -8,24 +8,23 @@ import { ButtonThree } from '../../../button/Button';
 import { officerApi } from '../../../API/officerApi';
 import { useNavigate } from 'react-router-dom';
 
-export default function Report({ setVisable, setReload, /* data */ }) {
+export default function Report(/*{ setVisable, setReload,  data  }*/) {
 
     const token = useMemo(() => localStorage.getItem('token'), [])
     const [massiveWorkers, setMassiveWorkers] = useState([])
     const navigate = useNavigate();
-    //console.log(data, setVisable);
 
     const onSubmitFn = (values) => {
         if (token !== null) {
             console.log(values);
             reportApi.newReport(values) 
-            setReload(true)
+            //setReload(true)
         }
         else {
             const transormValues = {...values, clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002'}
             reportApi.newReportNoLogin(transormValues)
         }
-        setVisable(false)
+        //setVisable(false)
         navigate('/')
     }
 
@@ -74,7 +73,7 @@ export default function Report({ setVisable, setReload, /* data */ }) {
             <form onSubmit={formik.handleSubmit} className="report">
                 <div className="exit" onClick={() => {
                     navigate('/')
-                    setVisable(false)
+                    //setVisable(false)
                 }}><h3><b>X</b></h3></div>
                 <label>Номер лицензии</label>
                 <input type="number"  id="licenseNumber" name="licenseNumber" className={`input ${formik.errors.licenseNumber && formik.touched.licenseNumber ? 'Error' : null}`} onChange={formik.handleChange} value={formik.values.licenseNumber}/>
@@ -120,7 +119,7 @@ export default function Report({ setVisable, setReload, /* data */ }) {
             </form>
             <div onClick={() => {
                 navigate('/')
-                setVisable(false)
+                //setVisable(false)
             }} className='overlay' />
         </>
     )

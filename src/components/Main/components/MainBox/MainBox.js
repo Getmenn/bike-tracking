@@ -2,12 +2,14 @@ import './mainBox.scss'
 import Block from './Block/Block'
 import { useEffect, useState } from 'react'
 import { reportApi } from '../../../API/reportsApi'
+import { useDispatch } from 'react-redux'
+import { addAllReports } from '../../../Redux/reportsReducer'
 
 export default function MainBox({token, setToken, setReload, reload}) {
 
     const [massivBike, setMassivBike] = useState({})
+    const dispatch = useDispatch();
    
-    
     useEffect(() => {
         if (token !== null) {
             getAllReports();
@@ -19,7 +21,9 @@ export default function MainBox({token, setToken, setReload, reload}) {
     }, [token, reload])//token
 
     const getAllReports = async () => {
-        setMassivBike(await reportApi.getAllReports())
+        const massiv = await reportApi.getAllReports()
+        setMassivBike(massiv)
+        dispatch(addAllReports(massiv))
     }
 
     return (

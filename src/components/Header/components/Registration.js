@@ -5,14 +5,13 @@ import { officerApi } from '../../API/officerApi';
 import { ButtonTwo } from '../../button/Button';
 import { useNavigate } from 'react-router-dom';
 
-export default function Registration({ setVisableRegistration, handleLogin }) {
+export default function Registration() {
 
     const navigate = useNavigate();
 
     async function onSubmitFn(values) { 
         const result = await officerApi.newOfficer(values) 
         if (result  !== null) {
-            setVisableRegistration(false)
             navigate('/')
         } else {
             formik.errors.email = true
@@ -47,7 +46,6 @@ export default function Registration({ setVisableRegistration, handleLogin }) {
             <form onSubmit={formik.handleSubmit} className="registration">
                 <div className="exit" onClick={() => {
                     navigate('/')
-                    setVisableRegistration(false)
                 }}><h3><b>X</b></h3></div>
                 <label>Имя</label>
                 <input type="text" id="firstName" name="firstName" className='input' onChange={formik.handleChange} />
@@ -67,7 +65,6 @@ export default function Registration({ setVisableRegistration, handleLogin }) {
             </form>
             <div onClick={() => {
                 navigate('/')
-                setVisableRegistration(false)
             }} className='overlay' />
         </>
     )

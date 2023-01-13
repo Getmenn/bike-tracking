@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useFormik } from 'formik'
+import { useSelector } from 'react-redux/es/exports'
 import * as yup from 'yup'
 import './block.scss'
 import { ButtonThree } from '../../../../button/Button'
@@ -11,25 +12,28 @@ export default function DetailedBlock({/*  bike, setVisableDetail, setReload */ 
 
     const [done, setDone] = useState(false);
     const [massiveWorkers, setMassiveWorkers] = useState([])
-    const [bike, setBike] = useState({})
+    //const [bike, setBike] = useState({})
+    const {reports} = useSelector(state => state.reports)
+    
     const navigate = useNavigate();
     const {id} = useParams()
+    const bike = Object(...reports.filter(report => report._id === id ))
 
     useEffect(() => {
-        
         getAllOfficers()
     }, [])
 
+    /*
     useEffect(() => {
         getReport()
     }, [])
 
-    const getReport = async () => {
+    const getReport = async () => { //сделать из редакса
         const getReportBike = await reportApi.getReport(id)
         setBike(getReportBike)
-        console.log(getReportBike);
-        console.log(bike);
-    }
+        //console.log(getReportBike);
+        //console.log(bike);
+    }*/
 
     const getAllOfficers = async () => {
         setMassiveWorkers(await officerApi.getAllOfficers())
@@ -40,21 +44,20 @@ export default function DetailedBlock({/*  bike, setVisableDetail, setReload */ 
         navigate('/')
     }
 
-
     const formik = useFormik({
         initialValues: { 
-            status: bike?.status,
-            licenseNumber: bike?.licenseNumber,
-            type: bike?.type,
-            ownerFullName: bike?.ownerFullName,
-            createdAt: bike?.createdAt,
-            updatedAt: bike?.updatedAt === null ? bike?.createdAt : bike?.updatedAt,
-            color: bike?.color || '',
-            date: bike?.date || '',
-            officer: bike?.officer || '',
-            description: bike?.description,
-            resolution: bike?.resolution || '',
-            _id: bike?._id
+            status: bike.status,
+            licenseNumber: bike.licenseNumber,
+            type: bike.type,
+            ownerFullName: bike.ownerFullName,
+            createdAt: bike.createdAt,
+            updatedAt: bike.updatedAt === null ? bike?.createdAt : bike?.updatedAt,
+            color: bike.color || '',
+            date: bike.date || '',
+            officer: bike.officer || '',
+            description: bike.description,
+            resolution: bike.resolution || '',
+            _id: bike._id
             //clientId: bike.clientId
         },
         validationSchema: yup.object({

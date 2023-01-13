@@ -26,9 +26,9 @@ export default function Header({token, setToken}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [login, setlogin] = useState(false)
     const [visableLogin, setVisableLogin] = useState(false)
-    const [visableRegistration, setVisableRegistration] = useState(false)
-    const [visableList, setVisableList] = useState(false)
-    const [visableOfficer, setVisableOfficer] = useState(false)
+    //const [visableRegistration, setVisableRegistration] = useState(false)
+    //const [visableList, setVisableList] = useState(false)
+    //const [visableOfficer, setVisableOfficer] = useState(false)
     const navigate = useNavigate();
 
     
@@ -120,7 +120,6 @@ export default function Header({token, setToken}) {
                             &&
                             <MenuItem style={{ width: '150px' }} onClick={() => {
                                 navigate('login')
-                                setVisableLogin(true)
                             }}>
                                 <p>Login</p>
                             </MenuItem>
@@ -129,15 +128,13 @@ export default function Header({token, setToken}) {
                         {login &&
                                 <div>
                                         <MenuItem onClick={() => {
-                                            navigate(`officers/${user.id}`)
-                                            setVisableOfficer(true)
+                                            navigate(`officers/${user.id}`,{ state: { message: "User" }})
                                         }}>
                                         <Avatar /> Профиль
                                         </MenuItem>
                                         <Divider />
                                         <MenuItem onClick={() => {
                                             navigate('registration')
-                                            setVisableRegistration(true)
                                         }}>
                                         <ListItemIcon>
                                             <PersonAdd fontSize="small" />
@@ -146,7 +143,6 @@ export default function Header({token, setToken}) {
                                         </MenuItem>
                                         <MenuItem onClick={() => {
                                             navigate('officers')
-                                            setVisableList(true)
                                         }}>
                                         <ListItemIcon >
                                             <BallotIcon fontSize="small" />
