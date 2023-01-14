@@ -4,9 +4,9 @@ export const officerApi = {
     
     newOfficer: async (officer) => { //создание сотрудника 
         try {
-            const response = await mainAuto.post('/api/officers', officer);
+            await mainAuto.post('/api/officers', officer);
             alert('Пользователь создан');
-            return console.log(response.data);
+            //return console.log(response.data);
         }
         catch (error){            
             alert(error.response.data.message);
@@ -27,8 +27,8 @@ export const officerApi = {
     },
     deleteOfficer: async (id) => { //удаление сотрудника
         try {
-            const response = await mainAuto.delete(`/api/officers/${id}`);
-            return console.log(response.data);
+            await mainAuto.delete(`/api/officers/${id}`);
+            //return console.log(response.data);
         }
         catch (error){            
             alert('Ошибка');
@@ -37,8 +37,8 @@ export const officerApi = {
     },
     editOfficer: async (id, officer) => { //редактирование сотрудника
         try {
-            const response = await mainAuto.put(`/api/officers/${id}`, officer);
-            return console.log(response.data);
+            await mainAuto.put(`/api/officers/${id}`, officer);
+            //return console.log(response.data);
         }
         catch (error){            
             //alert('Ошибка');

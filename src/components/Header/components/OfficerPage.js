@@ -13,20 +13,22 @@ export const OfficerPage = () => {
     const [checkbox, setCheckbox] = useState(false)
 
     const {id} = useParams()
-    const info = location.state !== null ? true : false
+    const info = location.state.message !== 'officer' ? true : false
    
     useEffect(() => {
-        console.log('get');
         getOfficer()
-    }, [])
+    }, [location])
     
-    const getOfficer = () => {
-        if (location.state !== null) {
+    const getOfficer = async () => {
+        if (location.state.message === 'User') {
             setOfficer(JSON.parse(localStorage.getItem('user')))
             setCheckbox(officer.checked)
         }
         else {
             let officerTime = Object(...officers.filter(officer => officer._id === id))
+            if (officers.length === 0) {
+                officerTime = await officerApi.getOfficer(id)
+            }
             delete officerTime.password
             setOfficer(officerTime)
             setCheckbox(officerTime.checked)
@@ -63,7 +65,7 @@ export const OfficerPage = () => {
         <>
             <div className="officerPage">
                 <div className="exit" onClick={() => {
-                    navigate(info ? '/' : '/officers', { state: { message: "Reload" }})
+                    navigate(info ? '/' : '/officers')
                 }}><h3><b>X</b></h3></div>
                 
                 <p className="fio">
@@ -86,7 +88,7 @@ export const OfficerPage = () => {
                 {info === false && <ButtonTwo size='small' variant="outlined" onClick={() => handleSubmit()}>Сохранить</ButtonTwo>}
             </div> 
             <div onClick={() => {
-                navigate(info ? '/' : '/officers', { state: { message: "Reload" }})
+                navigate(info ? '/' : '/officers')
             }} className='overlay' />
         </>
     )

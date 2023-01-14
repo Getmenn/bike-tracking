@@ -13,18 +13,11 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Logout from '@mui/icons-material/Logout';
 import BallotIcon from '@mui/icons-material/Ballot';
-import { officerApi } from '../API/officerApi';
-import { useDispatch } from 'react-redux';
-import { addAllOfficers } from '../Redux/firstReducer';
-
-
-
 
 export default function Header({token, setToken}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [login, setlogin] = useState(false);
     const location = useLocation();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const user = useMemo(() => JSON.parse(localStorage.getItem('user')), [login])
@@ -36,23 +29,13 @@ export default function Header({token, setToken}) {
         localStorage.removeItem('user')
     }
 
-     /* useEffect(() => { //добавить
-        console.log('getOfficers');
-        const getOfficers = async () => {
-            const officersMass = await officerApi.getAllOfficers();
-            //setOfficers(await officersMass)
-            dispatch(addAllOfficers(officersMass))
-        }
-        getOfficers()
-    }, [location.state])  */
-
     useEffect(() => {
         if (localStorage.getItem('token') !== null) {
             setToken(localStorage.getItem('token'))
             loginApi.checkToken()  
             setlogin(true)
         }
-    }, [location?.state?.data])
+    }, [location.state?.data])
     
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -143,7 +126,11 @@ export default function Header({token, setToken}) {
                                             Добавить сотрудника
                                         </MenuItem>
                                         <MenuItem onClick={() => {
-                                            navigate('officers')
+                                            navigate('officers',
+                                                location.state?.message === 'Reload officers'
+                                                &&
+                                                { state: { message: "Reload" } }
+                                            )
                                         }}>
                                         <ListItemIcon >
                                             <BallotIcon fontSize="small" />

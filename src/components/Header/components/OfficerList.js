@@ -3,46 +3,52 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import InfoIcon from '@mui/icons-material/Info';
 import { useEffect, useState } from 'react';
 import { officerApi } from '../../API/officerApi';
-import { useDispatch } from 'react-redux'
-import { OfficerPage } from './OfficerPage';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom';
 import { addAllOfficers } from '../../Redux/firstReducer'
 
 
 export default function OfficerList() {
     
-    const [officers, setOfficers] = useState([])
-    //const [visableOfficer, setVisableOfficer] = useState(false)
-    //const [officerInfo, setOfficerInfo] = useState({})
+    const [officerState, setOfficers] = useState([])
+    const {officers} = useSelector(state => state.main)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
-    //console.log(location);
 
-    
-    
     useEffect(() => {
-        const getOfficers = async () => {
-            console.log('getOfficers');
-            const officersMass = await officerApi.getAllOfficers();
-            setOfficers(await officersMass)
-            dispatch(addAllOfficers(officersMass))
+        if (officers.length === 0) {
+            getOfficers()
+        } else {
+            setOfficers(officers)
         }
-        getOfficers()
+    },[])
+    
+    useEffect(() => { //присмтреться
+        if (location.state?.message === 'Reload') {
+            getOfficers()
+        }
     }, [location.state]) //присмтреться
 
-
-    const handleDelet = async(id, name, lastName) => {
-        await officerApi.deleteOfficer(id);
+    const getOfficers = async () => {
         const officersMass = await officerApi.getAllOfficers();
-        setOfficers(officersMass)
-        alert(`Сотрудник ${name} ${lastName} удален`);
+        setOfficers(await officersMass)
+        dispatch(addAllOfficers(officersMass))
+    }
+
+
+    const handleDelet = async (id, name, lastName) => {
+        const result = window.confirm(`Хотите удалить сотрудника ${name} ${lastName} из базы данных?`);
+        if (result) {
+            await officerApi.deleteOfficer(id);
+            const officersMass = await officerApi.getAllOfficers();
+            setOfficers(officersMass)
+        }
     }
 
     
     const handleVisableInfo = ( officer ) => {
         navigate(`/officers/${officer._id}`, { state: { message: "officer" }})
-        //setOfficerInfo(officer)
     }
     
     
@@ -53,7 +59,7 @@ export default function OfficerList() {
                     navigate('/')
                 }}><h3><b>X</b></h3></div>
                 
-                {officers.map((officer) => 
+                {officerState.map((officer) => 
                     <div className="officerItem" key={officer._id}>
                         <label htmlFor="officerList">{officer.firstName + ' ' + officer.lastName}</label>
                         <InfoIcon titleAccess='Информация' onClick={() => handleVisableInfo(officer)} />

@@ -14,7 +14,6 @@ export default function Report() {
 
     const onSubmitFn = (values) => {
         if (token !== null) {
-            console.log(values);
             reportApi.newReport(values) 
             navigate('/', { state: { message: "Reload main" }})
         }

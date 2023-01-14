@@ -16,7 +16,7 @@ export default function MainBox({token}) {
         if (location.state?.message === 'Reload main') {
             getAllReports();
         }
-    }, [location?.state?.message])
+    }, [location.state?.message])
 
     useEffect(() => {
         if (token !== null) {
@@ -25,12 +25,13 @@ export default function MainBox({token}) {
         else {
             setMassivBike({})
         }
-    }, [token])//token
+    }, [token])
 
     const getAllReports = async () => {
         const massiv = await reportApi.getAllReports()
         setMassivBike(massiv)
         dispatch(addAllReports(massiv))
+        location.state = ''
     }
 
     return (

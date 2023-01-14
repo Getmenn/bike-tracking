@@ -12,7 +12,7 @@ export default function Registration() {
     async function onSubmitFn(values) { 
         const result = await officerApi.newOfficer(values) 
         if (result  !== null) {
-            navigate('/')
+            navigate('/', { state: { message: "Reload officers" }})
         } else {
             formik.errors.email = true
             formik.touched.email = true
