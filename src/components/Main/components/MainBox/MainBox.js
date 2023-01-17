@@ -5,6 +5,7 @@ import { reportApi } from '../../../API/reportsApi'
 import { useDispatch} from 'react-redux'
 import { addAllReports } from '../../../Redux/reportsReducer'
 import { useLocation} from 'react-router-dom'
+import { setToken } from '../../../API/Api'
 
 export default function MainBox({token}) {
 
@@ -13,7 +14,7 @@ export default function MainBox({token}) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (location.state?.message === 'Reload main') {
+        if (location.state?.message === 'Reload main' && token !== null) {
             getAllReports();
         }
     }, [location.state?.message])
@@ -27,11 +28,12 @@ export default function MainBox({token}) {
         }
     }, [token])
 
-    const getAllReports = async () => {
-        const massiv = await reportApi.getAllReports()
+    const getAllReports = async () => { ///ghbcvjnhtnmcz
+        let massiv = await reportApi.getAllReports()
         setMassivBike(massiv)
         dispatch(addAllReports(massiv))
         location.state = ''
+       
     }
 
     return (

@@ -1,5 +1,3 @@
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import './componentsHeader.scss'
@@ -7,23 +5,11 @@ import { loginApi } from '../../API/loginApi';
 import { useDispatch} from "react-redux";
 import { addOfficer } from '../../Redux/firstReducer';
 import { useNavigate } from 'react-router-dom';
+import { ButtonTwo } from '../../button/Button';
 
 export default function Login() {
 
     const navigate = useNavigate();
-
-    const ButtonTwo = styled(Button)({
-        fontSize: 14,
-        color: '#042177',
-        borderColor: '#042177',
-        marginTop: '23px',
-        '&:hover': {
-            borderColor: '#00123A',
-            backgroundColor: "rgba(0, 0, 0, 0.1)",
-            color: '#00123A',
-            boxShadow: 'none',
-        },
-    })
 
     async function onSubmitFn(values) { 
         

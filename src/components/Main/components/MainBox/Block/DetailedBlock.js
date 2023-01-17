@@ -138,7 +138,6 @@ export default function DetailedBlock() {
                     <label>Дата последнего обновления</label>
                     <input type="date" id="updatedAt" name="updatedAt" className='input' value={formik.values.updatedAt?.split('T')[0] || ''} readOnly />
                     
-                    <ButtonThree variant="outlined" size="medium" type='submit'>Изменить</ButtonThree>
                 </div>
 
                 <div className='detailBlock'>  {/* второй  блок*/}
@@ -166,6 +165,7 @@ export default function DetailedBlock() {
                         <label>Завершающий комментарий</label>
                         <input type="text" id="resolution" name="resolution" className='input' value={formik.values.resolution || ''} onChange={formik.handleChange} required/>
                     </>}
+                    <ButtonThree variant="outlined" size="medium" type='submit'>Изменить</ButtonThree>
                 </div>
                 
                 

@@ -1,12 +1,15 @@
 .mainBox{
-    width: 1545px;
-    height: 1900px;
+    max-width: 1545px;
+    min-height: 1000px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
     align-content: flex-start;
+    margin-bottom: 80px;
+    margin-top: 20px;
+    box-sizing: border-box;
 }
 
 .input.Error, .select.Error{

@@ -25,10 +25,17 @@ export default function Block({ bike }) {
         <>
             <div className="containerBlock">
                 <div className="icon">
-                    {bike.status === 'new' && <img src={newIcon} alt="Новое" height='30px' width='30px' />}
-                    {bike.status === 'in_progress' && <img src={inProgress} alt="В процессе" height='30px' width='30px' />}
-                    {bike.status === 'done' && <img src={done} alt="Завершено" height='30px' width='30px' />}
-                    {bike.status === 'done' && <img src={delet} alt="Удалить" height='30px' width='30px' style={{ marginLeft: '15px', cursor: 'pointer' }} onClick={handleDelete} />}
+                    {bike.status === 'new' && <img src={newIcon} alt="Новое" height='30px' width='30px'  title='Новое'/>}
+                    {bike.status === 'in_progress' && <img src={inProgress} alt="В процессе" height='30px' width='30px' title='В процессе'/>}
+                    {bike.status === 'done' && <img src={done} alt="Завершено" height='30px' width='30px' title='Завершено'/>}
+                    {bike.status === 'done' &&
+                        <img src={delet}
+                        alt="Удалить"
+                        height='30px'
+                        width='30px'
+                        style={{ marginLeft: '15px', cursor: 'pointer' }}
+                        onClick={handleDelete}
+                        title='Удалить' />}
                 </div>  
                 <div className="description">
                     <p><b>ФИО арендатора:</b> {bike.ownerFullName} </p>

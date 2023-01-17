@@ -10,7 +10,7 @@ export default function InfoBox() {
         <div className="infoBlock">
             <div className="infoBox">
                 <div className="infoBox-text">
-                    <p>Данный сайт предназначен для отслеживания случаев о краже велосипедов</p>
+                    <p>Данный сайт предназначен для отслеживания случаев о краже арендованных велосипедов фирмы "Bicycle"</p>
                     <ButtonOne variant="contained" onClick={() => {
                         navigate('report')
                     }}>Сообщить о краже</ButtonOne>

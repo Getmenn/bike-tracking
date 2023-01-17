@@ -1,4 +1,5 @@
 import { main } from "./Api";
+import { setToken } from "./Api";
 
 
 export const loginApi = {
@@ -11,7 +12,6 @@ export const loginApi = {
             const response = await main.post(`/api/auth/sign_in`, user);
             localStorage.setItem('token', response.data.data.token)
             localStorage.setItem('user', JSON.stringify(response.data.data.user) ) 
-           // return console.log(response.data); 
         } catch (error) {
             return null
         }
