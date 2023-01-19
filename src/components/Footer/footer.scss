@@ -6,10 +6,17 @@
     justify-content: space-between;
     color: rgb(255, 255, 255);
     height: 100px;
-    p{
-        margin: 100px;
-        font-weight: 900;
-        font-size: 20px;
-        line-height: 27px;
+    .number{
+        margin-left: 100px;
+        width: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    .social{
+        margin-right: 100px;
+        a{
+            margin-left: 8px;
+        }
     }
 }

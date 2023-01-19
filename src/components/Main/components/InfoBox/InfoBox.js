@@ -1,6 +1,9 @@
 import './infoBox.scss'
 import { ButtonOne } from '../../../button/Button';
 import { useNavigate, } from 'react-router-dom';
+import bicycle from '../../../../svg/bicycle.png'
+import forest from '../../../../svg/forest.png'
+
 
 export default function InfoBox() {
     
@@ -10,13 +13,15 @@ export default function InfoBox() {
         <div className="infoBlock">
             <div className="infoBox">
                 <div className="infoBox-text">
-                    <p>Данный сайт предназначен для отслеживания случаев о краже арендованных велосипедов фирмы "Bicycle"</p>
+                    <p>Данный сайт предназначен для отслеживания случаев о краже арендованных велосипедов фирмы "Bike Patrol"</p>
                     <ButtonOne variant="contained" onClick={() => {
                         navigate('report')
                     }}>Сообщить о краже</ButtonOne>
                 </div>
-                <img className='infoBox-image' src="https://sarvelo.ru/wp-content/uploads/f/5/b/f5bcc82980d8f827760dead323bcc6d9.jpg" alt="Велосипед" />
+                <img className='infoBox-image' src={bicycle} alt="Велосипед" />
+                
             </div>
+            <img className='imageBackground' src={forest} alt="Лес" />
         </div>
     )
 }

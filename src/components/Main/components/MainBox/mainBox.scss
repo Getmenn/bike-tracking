@@ -1,6 +1,15 @@
 .mainBox{
     max-width: 1545px;
-    min-height: 1000px;
+    min-height: 500px;
+
+    h1{
+        display: flex;
+        justify-content: center;
+        margin-top: 60px;
+    }
+    
+}
+.mainBox-container{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -10,6 +19,36 @@
     margin-bottom: 80px;
     margin-top: 20px;
     box-sizing: border-box;
+}
+
+.mainBox-info{
+    margin-top: 100px;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    .statistic{
+        background-color: #d4c6b847;
+        padding: 35px;
+        border-radius: 5px;
+        width: 181px;
+        height: 263px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        margin-right: 60px;
+        img{
+            height: 100px;
+            width: 100px;
+            margin-bottom: 30px;
+        }
+        p{
+            color: #7a4322;
+        }
+    }
 }
 
 .input.Error, .select.Error{

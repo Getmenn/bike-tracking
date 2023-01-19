@@ -50,7 +50,7 @@ export default function Header({token, setToken}) {
     return (
         <>
             <div className="header">
-                <p>Вело Патруль</p>
+                <p>Bike Patrol</p>
                 <div className="loginBox">
                     <Tooltip title="Account settings">
                         <IconButton

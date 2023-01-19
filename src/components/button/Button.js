@@ -29,11 +29,10 @@ export const ButtonThree = styled(Button)({
 
 export const ButtonOne = styled(Button)({
     fontSize: 18,
-    background: '#b37b7b',
+    background: '#b37f61',
     marginTop: '80px',
     '&:hover': {
-        backgroundColor: '#765050',
-        borderColor: '#0062cc',
-        boxShadow: 'none',
+        backgroundColor: '#c76d3a',
+        borderColor: '#c76d3a',
     },
 })

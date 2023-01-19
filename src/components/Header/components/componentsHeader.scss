@@ -1,7 +1,7 @@
 .login, .registration, .officerList, .officerPage{
     min-width: 270px;
     min-height: 250px;
-    background: rgb(255, 207, 207);
+   /*  background: rgb(255, 207, 207); */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -9,7 +9,7 @@
     box-sizing: border-box;
     transform: translate(-50%, -50%);
     padding: 25px;
-    background-color: #e1e1e1;
+    background-color: #b1b8d7;
     display: flex;
     flex-direction: column;
     justify-items: center;
@@ -56,7 +56,10 @@
 .officerPage{
     min-height: 200px;
     align-items: flex-start;
-    background-color: #b5b5ff;
+    background-color: #b1b8d7;
+    h2{
+        margin-bottom: 15px;
+    }
     p{
         margin: 10px 0;
     }

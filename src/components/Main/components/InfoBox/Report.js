@@ -15,13 +15,14 @@ export default function Report() {
     const onSubmitFn = (values) => {
         if (token !== null) {
             reportApi.newReport(values) 
-            navigate('/', { state: { message: "Reload main" }})
+            navigate('/', { state: { message: "Reload main" } })
         }
         else {
             const transormValues = {...values, clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002'}
             reportApi.newReportNoLogin(transormValues)
-            navigate('/')
+            navigate('/')  
         }   
+        alert(`Случай кражи добавлен в базу данных!`)
     }
 
     useEffect(() => {

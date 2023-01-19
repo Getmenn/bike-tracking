@@ -3,6 +3,7 @@ import { ButtonTwo } from "../../button/Button";
 import { officerApi } from "../../API/officerApi";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from 'react-redux/es/exports'
+import Divider from '@mui/material/Divider';
 
 export const OfficerPage = () => {
 
@@ -67,7 +68,7 @@ export const OfficerPage = () => {
                 <div className="exit" onClick={() => {
                     navigate(info ? '/' : '/officers')
                 }}><h3><b>X</b></h3></div>
-                
+                {info && <h2>Профиль</h2>}
                 <p className="fio">
                     <input type="text" defaultValue={officer.firstName} id='firstName' onChange={(e) => handleChange(e)} readOnly={info} />
                     <input type="text" defaultValue={officer.lastName} id='lastName' onChange={(e) => handleChange(e)} readOnly={info}/>

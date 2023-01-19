@@ -6,6 +6,7 @@ import { officerApi } from '../../API/officerApi';
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { addAllOfficers } from '../../Redux/firstReducer'
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
 
 export default function OfficerList() {
@@ -61,7 +62,17 @@ export default function OfficerList() {
                 
                 {officerState.map((officer) => 
                     <div className="officerItem" key={officer._id}>
-                        <label htmlFor="officerList">{officer.firstName + ' ' + officer.lastName}</label>
+                        <label htmlFor="officerList">
+                            {`${officer.firstName} ${officer.lastName}`}
+                            {officer.approved &&
+                                <DoneOutlineIcon
+                                    style={{ color: '#c76d3a', cursor: 'auto', marginLeft: '7px' }}
+                                    titleAccess='Одобренный сотрудник'
+                                    fontSize='inherit'
+                                
+                            />}
+                        </label>
+                       
                         <InfoIcon titleAccess='Информация' onClick={() => handleVisableInfo(officer)} />
                         <PersonRemoveIcon titleAccess='Удалить' onClick={() => handleDelet(officer._id, officer.firstName, officer.lastName)} />
                     </div>
