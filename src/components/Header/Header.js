@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Logout from '@mui/icons-material/Logout';
 import BallotIcon from '@mui/icons-material/Ballot';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export default function Header({token, setToken}) {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -52,7 +53,7 @@ export default function Header({token, setToken}) {
             <div className="header">
                 <p>Bike Patrol</p>
                 <div className="loginBox">
-                    <Tooltip title="Account settings">
+                    <Tooltip title="Информация">
                         <IconButton
                             onClick={handleClick}
                             size="small"
@@ -61,7 +62,7 @@ export default function Header({token, setToken}) {
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                         >
-                            <Avatar sx={{ width: 45, height: 45 }}>M</Avatar>
+                            <MenuIcon style={{color: '#fff'}} fontSize='large'/> 
                         </IconButton>
                     </Tooltip>
                     

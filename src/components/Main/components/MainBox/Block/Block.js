@@ -1,8 +1,8 @@
 import './block.scss'
-import newIcon from '../../../../../svg/new.svg'
-import inProgress from '../../../../../svg/inProgress.svg'
-import done from '../../../../../svg/done.svg'
-import delet from '../../../../../svg/delete.svg'
+import newIcon from '../../../../../assets/new.svg'
+import inProgress from '../../../../../assets/inProgress.svg'
+import done from '../../../../../assets/done.svg'
+import delet from '../../../../../assets/delete.svg'
 import { reportApi } from '../../../../API/reportsApi';
 import { ButtonTwo } from '../../../../button/Button';
 import { useNavigate } from 'react-router-dom';

@@ -1,8 +1,8 @@
 import './infoBox.scss'
 import { ButtonOne } from '../../../button/Button';
 import { useNavigate, } from 'react-router-dom';
-import bicycle from '../../../../svg/bicycle.png'
-import forest from '../../../../svg/forest.png'
+import bicycle from '../../../../assets/bicycle.png'
+import forest from '../../../../assets/forest.png'
 
 
 export default function InfoBox() {

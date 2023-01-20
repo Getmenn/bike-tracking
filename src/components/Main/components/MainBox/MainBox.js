@@ -5,9 +5,9 @@ import { reportApi } from '../../../API/reportsApi'
 import { useDispatch} from 'react-redux'
 import { addAllReports } from '../../../Redux/reportsReducer'
 import { useLocation} from 'react-router-dom'
-import success from '../../../../svg/success.png'
-import glass from '../../../../svg/glass.png'
-import leader from '../../../../svg/leader.png'
+import success from '../../../../assets/success.png'
+import glass from '../../../../assets/glass.png'
+import leader from '../../../../assets/leader.png'
 
 
 export default function MainBox({token}) {
