@@ -26,11 +26,8 @@ export default function Registration() {
             password: '',
             firstName: '',
             lastName: '',
-            //clientId: '54643bb2-7e2d-11ed-a1eb-0242ac120002'
         },
         validationSchema: yup.object({
-            //email: yup.string().required('Required').email('Invalid email add'),
-            //системное status: yup.string(), //статус 
             email: yup.string().required('Обязательное поле').email(),
             password: yup.string().required('Обязательное поле'),
             firstName: yup.string(),

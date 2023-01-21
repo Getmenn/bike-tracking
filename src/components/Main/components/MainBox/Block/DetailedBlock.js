@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux/es/exports'
 import * as yup from 'yup'
@@ -24,38 +24,34 @@ export default function DetailedBlock() {
     const location = useLocation();
 
     useEffect(() => {
-        
-        
+        const getAllOfficers =   async () => {
+            const officersMass = await officerApi.getAllOfficers()
+            setMassiveWorkers(officersMass)
+            dispatch(addAllOfficers(officersMass))
+        }
         if (officers.length === 0) {
             getAllOfficers()
         }
         else {
             setMassiveWorkers(officers)
         } 
-    }, [])
+    }, [officers, dispatch])
 
     useEffect(() => {
+        const getReport = async () => {
+            let bikeTime;
+            if (reports.length !== 0) {
+                bikeTime = Object(...reports?.filter(report => report._id === id))
+                setBike(bikeTime)
+            }
+            else {
+                bikeTime = await reportApi.getReport(id)
+                setBike(await bikeTime)
+            }
+            setDone(bikeTime.status === 'done' && true)
+        }
         getReport()
-    }, [location])
-
-    const getReport = async () => {
-        let bikeTime;
-        if (reports.length !== 0) {
-            bikeTime = Object(...reports?.filter(report => report._id === id))
-            setBike(bikeTime)
-        }
-        else {
-            bikeTime = await reportApi.getReport(id)
-            setBike(await bikeTime)
-        }
-        setDone(bikeTime.status === 'done' && true)
-    } 
-
-    const getAllOfficers = async () => {
-        const officersMass = await officerApi.getAllOfficers()
-        setMassiveWorkers(officersMass)
-        dispatch(addAllOfficers(officersMass))
-    }
+    }, [id, location, reports])
 
     async function onSubmitFn (value) {
         await reportApi.editReport(value._id, value)
@@ -77,22 +73,12 @@ export default function DetailedBlock() {
             description: bike.description,
             resolution: bike.resolution || '',
             _id: bike._id
-            //clientId: bike.clientId
         },
         validationSchema: yup.object({
-            //email: yup.string().required('Required').email('Invalid email add'),
-            status: yup.string(), //статус системное
+            status: yup.string(),
             licenseNumber: yup.number('Только цифры').positive('Только положительные цифры').required('Обязательное поле'), //из 7 цифр 
             type: yup.string().required('Обязательное поле'),
             ownerFullName: yup.string().required('Обязательное поле'),
-            //clientId: yup.string(), //системное//  clientId, уникальный для каждого студента
-            createdAt: yup.date(), //автоматом //Дата создания сообщения
-            updatedAt: yup.date(), //системное//Дата последнего обновления сообщения
-            //color: yup.string(),
-            //date: yup.date(), //дата кражи
-            //officer: yup.string(), //Ответственный сотрудник
-            //description: yup.string(), //название
-            //resolution: yup.string(), //комментарий 
         }),
         onSubmit: onSubmitFn,
     })
@@ -150,11 +136,13 @@ export default function DetailedBlock() {
                     <label>Ответственный сотрудник</label>
                     <select type="text" id="officer" name="officer" className='input' value={formik.values.officer || ''} onChange={formik.handleChange}>
                         {formik.values.officer === '' && <option value=''>Выберете ответственного</option>}
-                        {massiveWorkers !== [] && massiveWorkers.map(officer => {
-                                if (officer.approved) {
-                                    return <option key={officer._id} value={officer._id || ''}>{officer.firstName + ' ' + officer.lastName}</option>
-                                }
-                            })
+                        {massiveWorkers !== [] && massiveWorkers
+                                .filter(officer => officer.approved === true)
+                                .map(officer => 
+                                    <option key={officer._id} value={officer._id || ''}>
+                                        {officer.firstName + ' ' + officer.lastName}
+                                    </option>
+                                )
                         }     
                     </select> 
                                             

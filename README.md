@@ -9,3 +9,9 @@ This project is designed to track the theft of rented bikes in a well-known comp
 ## Documentation
 
 ⚡ Full documentation for the backend API can be found [link](https://documenter.getpostman.com/view/18055274/UVRAH6XZ). 
+
+## Login details
+
+Email: **number@mail.ru**
+
+password: **asdasd**

@@ -1,6 +1,6 @@
 import './mainBox.scss'
 import Block from './Block/Block'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { reportApi } from '../../../API/reportsApi'
 import { useDispatch} from 'react-redux'
 import { addAllReports } from '../../../Redux/reportsReducer'
@@ -16,11 +16,18 @@ export default function MainBox({token}) {
     const location = useLocation();
     const dispatch = useDispatch();
 
+    const getAllReports = useCallback(async () => {
+        let massiv = await reportApi.getAllReports()
+        setMassivBike(massiv)
+        dispatch(addAllReports(massiv))
+        location.state = ''
+    },[dispatch, location])
+
     useEffect(() => {
         if (location.state?.message === 'Reload main' && token !== null) {
             getAllReports();
         }
-    }, [location.state?.message])
+    }, [location.state?.message, token, getAllReports])
 
     useEffect(() => {
         if (token !== null) {
@@ -29,15 +36,8 @@ export default function MainBox({token}) {
         else {
             setMassivBike(null)
         }
-    }, [token])
-
-    const getAllReports = async () => { ///ghbcvjnhtnmcz
-        let massiv = await reportApi.getAllReports()
-        setMassivBike(massiv)
-        dispatch(addAllReports(massiv))
-        location.state = ''
-       
-    }
+    }, [token, getAllReports])
+    
 
     return (
         <div className="mainBox">

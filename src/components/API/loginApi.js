@@ -1,11 +1,8 @@
 import { main } from "./Api";
-import { setToken } from "./Api";
-
 
 export const loginApi = {
     signUp: async (user) => { //создание учетной записи
         await main.post(`/api/auth/sign_up`, user);
-        //return console.log(response);
     },
     signIn: async (user) => { //авторизация
         try {

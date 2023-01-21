@@ -6,11 +6,9 @@ export const officerApi = {
         try {
             await main.post('/api/officers', officer);
             alert('Пользователь создан');
-            //return console.log(response.data);
         }
         catch (error){            
             alert(error.response.data.message);
-            //const errorStatus = error.then(error => error.data)
             return null
         }
     },
@@ -21,14 +19,12 @@ export const officerApi = {
         }
         catch (error){            
             alert('Ошибка');
-            //const errorStatus = error.then(error => error.data)
             return null
         }
     },
     deleteOfficer: async (id) => { //удаление сотрудника
         try {
             await main.delete(`/api/officers/${id}`);
-            //return console.log(response.data);
         }
         catch (error){            
             alert('Ошибка');
@@ -37,11 +33,9 @@ export const officerApi = {
     },
     editOfficer: async (id, officer) => { //редактирование сотрудника
         try {
-            await main.put(`/api/officers/${id}`, officer);
-            //return console.log(response.data);
+            await main.put(`/api/officers/${id}`, officer);;
         }
         catch (error){            
-            //alert('Ошибка');
             return console.log(error)
         }
     },
@@ -51,7 +45,6 @@ export const officerApi = {
             return response.data.data;
         }
         catch (error){            
-            //alert('Ошибка');
             return console.log(error)
         }
     },

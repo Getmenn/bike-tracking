@@ -29,7 +29,7 @@ export default function Report() {
         if (token !== null) {
             getAllOfficers()
         }
-    }, [])
+    }, [token])
 
     const getAllOfficers = async () => {
         setMassiveWorkers(await officerApi.getAllOfficers())
@@ -44,25 +44,14 @@ export default function Report() {
             date: '',  
             description: '',
             officer: ''
-            /* officer: officerID,
-            clientId : '54643bb2-7e2d-11ed-a1eb-0242ac120002' */
-            //resolution: ''
-            //добавить поле ответственный сотрудник для авторизованных пользователей
         },
         validationSchema: yup.object({
-            //email: yup.string().required('Required').email('Invalid email add'),
-            //системное status: yup.string(), //статус 
             licenseNumber: yup.number('Только цифры').positive('Только положительные цифры').required('Обязательное поле'),/* .length(7,'Номер лицензии состоит из 7 цифр') добавить длину*/
             ownerFullName: yup.string().required('Обязательное поле'),
             type: yup.string().required('Обязательное поле'),
-            //системное clientId: yup.string().required('Required'), //  clientId, уникальный для каждого студента
-            //автоматом createdAt: yup.date().required('Required'),  //Дата создания сообщения
-            //системное updatedAt: yup.date(), //Дата последнего обновления сообщения
             color: yup.string(),
-            date: yup.date(), //дата кражи
-            // добавить в виде селект с существующими сотрудниками officer: yup.string(), //Ответственный сотрудник 
-            description: yup.string(), //название
-            //resolution: yup.string(), //комментарий
+            date: yup.date(),
+            description: yup.string()
         }),
         onSubmit: onSubmitFn
     })
@@ -102,11 +91,13 @@ export default function Report() {
                         <label>Ответственный сотрудник</label>
                         <select type="text" id="officer" name="officer" className='input' value={formik.values.officer} onChange={formik.handleChange}>
                             {formik.values.officer === '' && <option>Выберете ответственного</option>}
-                            {massiveWorkers !== [] && massiveWorkers.map(officer => {
-                                    if (officer.approved) {
-                                        return <option key={officer._id} value={officer._id}>{officer.firstName + ' ' + officer.lastName}</option>
-                                    }
-                                })
+                        {massiveWorkers !== [] && massiveWorkers
+                                .filter(officer => officer.approved === true)
+                                .map(officer => 
+                                    <option key={officer._id} value={officer._id}>
+                                        {officer.firstName + ' ' + officer.lastName}
+                                    </option>
+                                )
                             }     
                         </select>
                     </>
