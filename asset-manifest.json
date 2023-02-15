@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/bike-tracking/static/css/main.5bd13bc4.css",
+    "main.js": "/bike-tracking/static/js/main.599b27ad.js",
+    "static/media/bicycle.png": "/bike-tracking/static/media/bicycle.48fdd21b63cae8ba8b3d.png",
+    "static/media/glass.png": "/bike-tracking/static/media/glass.2849201235bad9a8b941.png",
+    "static/media/forest.png": "/bike-tracking/static/media/forest.4fc4fa531c2ea921df8c.png",
+    "static/media/new.svg": "/bike-tracking/static/media/new.e0800027540169b8c66182d9c1dea772.svg",
+    "index.html": "/bike-tracking/index.html",
+    "static/media/delete.svg": "/bike-tracking/static/media/delete.c4d47227d4ce446418152f5ab46c5e26.svg",
+    "static/media/inProgress.svg": "/bike-tracking/static/media/inProgress.b47c15cebc89f84399ff294dd560f69e.svg",
+    "static/media/done.svg": "/bike-tracking/static/media/done.210c2868c71cac8882bf6213cbc71188.svg",
+    "main.5bd13bc4.css.map": "/bike-tracking/static/css/main.5bd13bc4.css.map",
+    "main.599b27ad.js.map": "/bike-tracking/static/js/main.599b27ad.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5bd13bc4.css",
+    "static/js/main.599b27ad.js"
+  ]
+}
